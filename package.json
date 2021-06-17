@@ -5,14 +5,14 @@
   "scripts": {
     "serve": "vue-cli-service electron:serve",
     "build": "vue-cli-service electron:build",
-    "vue:serve": "vue-cli-service serve",
-    "vue:build": "vue-cli-service build",
     "postinstall": "electron-builder install-app-deps",
-    "postuninstall": "electron-builder install-app-deps"
+    "postuninstall": "electron-builder install-app-deps",
+    "vue:build": "vue-cli-service build",
+    "vue:serve": "vue-cli-service serve"
   },
   "main": "background.js",
   "dependencies": {
-    "ant-design-vue": "^1.2.4",
+    "bootstrap-vue": "^2.17.3",
     "core-js": "^3.6.5",
     "sqlite3": "^5.0.2",
     "vue": "^2.6.11",
@@ -22,9 +22,15 @@
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
+    "bootstrap": "^4.5.2",
     "electron": "^12.0.0",
     "electron-devtools-installer": "^3.1.0",
-    "vue-cli-plugin-ant-design": "~1.0.1",
+    "mutationobserver-shim": "^0.3.7",
+    "popper.js": "^1.16.1",
+    "portal-vue": "^2.1.7",
+    "sass": "^1.26.11",
+    "sass-loader": "^10.0.2",
+    "vue-cli-plugin-bootstrap-vue": "~0.7.0",
     "vue-cli-plugin-electron-builder": "~2.0.0",
     "vue-template-compiler": "^2.6.11"
   }
