@@ -1,43 +1,84 @@
 <template>
-  <div class="px-3">
-    <h1>Counter: {{ counter }}</h1>
-    <b-button class="mb-2" variant="outline-primary" @click="increase">Increase</b-button>
-    <!--    <router-link to="/about">Go to About</router-link>-->
-    <div v-for="p in products" :key="p.id">
-      <p>id: {{ p.id }}</p>
-      <p>name: {{ p.name }}</p>
-    </div>
-  </div>
+  <b-container>
+    <b-card class="mx-5 mt-5">
+
+      <b-row class="justify-content-center mb-3">
+        <b-col cols="auto">
+          <h4 class="font-weight-light ">Add User Form</h4>
+        </b-col>
+      </b-row>
+
+      <b-row class="justify-content-center">
+        <b-col sm="3">
+          <label>First Name</label>
+        </b-col>
+        <b-col sm="9">
+          <b-form-input v-model="firstName" type="text"></b-form-input>
+        </b-col>
+      </b-row>
+
+      <b-row class="justify-content-center mt-2">
+        <b-col sm="3">
+          <label>Last Name</label>
+        </b-col>
+        <b-col sm="9">
+          <b-form-input v-model="lastName" type="text"></b-form-input>
+        </b-col>
+      </b-row>
+
+      <b-button :disabled="allowAddUser" class="mt-3" variant="primary" block @click="addUser">Add</b-button>
+    </b-card>
+
+    <b-card class="mx-5 mt-2">
+
+      <p>Users List:</p>
+
+      <b-card v-for="user in users" :key="user.id">
+        <p>Id: {{ user.id }}</p>
+        <p>FirstName: {{ user.firstName }}</p>
+        <p>LastName: {{ user.lastName }}</p>
+      </b-card>
+
+    </b-card>
+
+  </b-container>
 </template>
 
 <script>
-import { queryAllProduct, insertProduct } from '@/db/user'
+import {getAllUsers, insertUser} from '@/db/users'
 
 export default {
   name: 'Home',
   data: () => ({
-    counter: 0,
-    products: []
+    firstName: '',
+    lastName: '',
+    users: []
   }),
   methods: {
-    increase() {
-      this.counter++
-      let product = {
-        id: this.counter,
-        name: 'test' + this.counter
+    addUser() {
+      let user = {
+        firstName: this.firstName,
+        lastName: this.lastName
       }
-      insertProduct(product).then(() => {
-        this.fetch()
+      this.firstName = ''
+      this.lastName = ''
+      insertUser(user).then(() => {
+        this.fetchAllUsers()
       })
     },
-    fetch(){
-      queryAllProduct().then(data => {
-        this.products = data
+    fetchAllUsers() {
+      getAllUsers().then(data => {
+        this.users = data
       })
     }
   },
-  mounted () {
-    this.fetch()
+  computed:{
+    allowAddUser(){
+      return this.firstName === '' && this.lastName === '';
+    }
+  },
+  mounted() {
+    this.fetchAllUsers()
   },
 }
 </script>
