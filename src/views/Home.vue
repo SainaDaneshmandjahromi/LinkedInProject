@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { queryAllProduct, insertProduct } from '@/utils/db'
+import { queryAllProduct, insertProduct } from '@/db/user'
 
 export default {
   name: 'Home',

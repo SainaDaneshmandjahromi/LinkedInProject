@@ -3,6 +3,8 @@
 import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
+import { getDatabase, initialTables, closeDatabase } from './db/db'
+
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 // Scheme must be registered before the app is ready
@@ -42,6 +44,7 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
+  closeDatabase()
 })
 
 app.on('activate', () => {
@@ -63,6 +66,9 @@ app.on('ready', async () => {
     }
   }
   createWindow()
+
+  getDatabase()
+  initialTables()
 })
 
 // Exit cleanly on request from parent process in development mode.
