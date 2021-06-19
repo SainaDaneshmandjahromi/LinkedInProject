@@ -26,7 +26,7 @@
         </b-col>
       </b-row>
 
-      <b-button :disabled="allowAddUser" class="mt-3" variant="primary" block @click="addUser">Add</b-button>
+      <b-button :disabled="allowAddUser" block class="mt-3" variant="primary" @click="addUser">Add</b-button>
     </b-card>
 
     <b-card class="mx-5 mt-2">
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import {getAllUsers, insertUser} from '@/db/users'
+import { getAllUsers, insertUser } from '@/db/users'
 
 export default {
   name: 'Home',
@@ -72,9 +72,9 @@ export default {
       })
     }
   },
-  computed:{
-    allowAddUser(){
-      return this.firstName === '' && this.lastName === '';
+  computed: {
+    allowAddUser() {
+      return this.firstName === '' && this.lastName === ''
     }
   },
   mounted() {
