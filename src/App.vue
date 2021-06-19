@@ -5,7 +5,15 @@
 </template>
 
 <script>
+// for sample
+// import { getAllUsers} from '@/db/users'
+
 export default {
-  name: 'app'
+  name: 'app',
+  // created() {
+  //   getAllUsers().then((data) =>{
+  //     console.log(data)
+  //   })
+  // }
 }
 </script>
