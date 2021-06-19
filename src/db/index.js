@@ -23,6 +23,7 @@ export function getDb() {
 
 export async function createTables() {
     await createUsersTable()
+    //add other tables here
 }
 
 // TODO: add fake data generator function
