@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { getAllUsers, insertUser } from '@/db/users'
+import { getAllUsers, insertUser } from '@/db/user/users'
 
 export default {
   name: 'Home',

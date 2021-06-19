@@ -1,7 +1,15 @@
 import sqlite3 from 'sqlite3'
 import { open } from 'sqlite'
 
-import { createUsersTable } from '@/db/users'
+// user
+import { createUsersTable } from '@/db/user/users'
+import { createAccomplishmentsTable } from '@/db/user/accomplishments'
+import { createSkillsTable } from '@/db/user/skills'
+import { createLanguagesTable } from '@/db/user/languages'
+import { createUserLanguageTable } from '@/db/user/userLanguage'
+// posting
+
+// chatting
 
 sqlite3.verbose()
 let db
@@ -22,7 +30,14 @@ export function getDb() {
 }
 
 export async function createTables() {
+
     await createUsersTable()
+    await createAccomplishmentsTable()
+    await createSkillsTable()
+    await createLanguagesTable()
+    await createUserLanguageTable()
+
+
     //add other tables here
 }
 

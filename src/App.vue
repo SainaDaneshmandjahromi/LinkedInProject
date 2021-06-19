@@ -6,14 +6,15 @@
 
 <script>
 // for sample
-// import { getAllUsers} from '@/db/users'
+import { getAllUsers, insertUser } from '@/db/user/users'
 
 export default {
   name: 'app',
-  // created() {
+  // async created() {
   //   getAllUsers().then((data) =>{
   //     console.log(data)
   //   })
+  //   await insertUser(user)
   // }
 }
 </script>
