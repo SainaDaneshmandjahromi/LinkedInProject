@@ -2,8 +2,8 @@ import sqlite3 from 'sqlite3'
 import { open } from 'sqlite'
 
 import { createUsersTable } from '@/db/users'
-
-sqlite3.verbose()
+import { createPostsTable } from '@/db/posts'
+sqlite3.verbose() 
 let db
 
 export async function openDb() {
@@ -23,6 +23,7 @@ export function getDb() {
 
 export async function createTables() {
     await createUsersTable()
+    await createPostsTable()
     //add other tables here
 }
 
