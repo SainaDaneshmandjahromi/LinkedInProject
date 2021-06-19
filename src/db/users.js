@@ -1,22 +1,27 @@
-import { getDatabase } from './db'
+import { getDb } from "@/db/index"
 
-export const getAllUsers = () => {
-    return new Promise((resolve, reject) => {
-        // getDatabase().all('select id, name from ProductTable', (err, rows) => {
-        getDatabase().all('select * from users', (err, rows) => {
-            if (err) reject(err)
-            resolve(rows || [])
-        })
-    })
+export async function createUsersTable() {
+    await getDb().exec(`
+        CREATE TABLE if not exists users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        firstName TEXT NOT NULL,
+        lastName TEXT NOT NULL
+        )
+    `)
 }
 
-export const insertUser = (user) => {
-    return new Promise((resolve, reject) => {
-        // let prepare = getDatabase().prepare('replace into ProductTable (id, name) values (?, ?)')
-        let prepare = getDatabase().prepare('INSERT INTO users (firstName, lastName) values (?, ?)')
-        prepare.run(user.firstName, user.lastName)
-        prepare.finalize(err => {
-            if (!err) resolve()
-        })
-    })
+export async function getAllUsers() {
+    return getDb().all(`
+        SELECT * FROM users
+    `)
+}
+
+export async function insertUser(user) {
+   return getDb().run(
+       `
+        INSERT INTO users (firstName, lastName) values (?, ?)
+       `,
+       user.firstName,
+       user.lastName
+   )
 }

@@ -3,7 +3,7 @@
 import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer'
-import { getDatabase, initialTables, closeDatabase } from './db/db'
+import { closeDb } from "@/db";
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -38,13 +38,13 @@ async function createWindow() {
 }
 
 // Quit when all windows are closed.
-app.on('window-all-closed', () => {
+app.on('window-all-closed', async () => {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
     app.quit()
   }
-  closeDatabase()
+  await closeDb()
 })
 
 app.on('activate', () => {
@@ -66,9 +66,6 @@ app.on('ready', async () => {
     }
   }
   createWindow()
-
-  getDatabase()
-  initialTables()
 })
 
 // Exit cleanly on request from parent process in development mode.
