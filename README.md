@@ -1,4 +1,5 @@
 # linkedin-db-project
+Implemented by electronjs, vuejs and sqlite
 
 ## Project setup
 ```
@@ -14,6 +15,3 @@ yarn serve
 ```
 yarn build
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
