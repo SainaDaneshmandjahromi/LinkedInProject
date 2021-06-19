@@ -7,9 +7,12 @@ import { createAccomplishmentsTable } from '@/db/user/accomplishments'
 import { createSkillsTable } from '@/db/user/skills'
 import { createLanguagesTable } from '@/db/user/languages'
 import { createUserLanguageTable } from '@/db/user/userLanguage'
+
 // posting
+import { createPostsTable } from '@/db/posting/posts'
 
 // chatting
+import { createMessagesTable } from '@/db/chatting/messages'
 
 sqlite3.verbose()
 let db
@@ -37,6 +40,9 @@ export async function createTables() {
     await createLanguagesTable()
     await createUserLanguageTable()
 
+    await createPostsTable()
+
+    await createMessagesTable()
 
     //add other tables here
 }
