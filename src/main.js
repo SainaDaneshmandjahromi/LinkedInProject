@@ -3,7 +3,7 @@ import Vue from 'vue'
 import './plugins/bootstrap-vue'
 import App from './App.vue'
 import router from './router'
-import {createTables, openDb, closeDb} from "@/db";
+import {createTables, openDb, closeDb} from "@/db"
 
 Vue.config.productionTip = false
 
