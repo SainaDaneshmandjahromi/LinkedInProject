@@ -11,8 +11,8 @@ import { createUserLanguageTable } from '@/db/user/userLanguage'
 // posting
 import { createPostsTable } from '@/db/posting/posts'
 
-// chatting
-import { createMessagesTable } from '@/db/chatting/messages'
+// messaging
+import { createMessagesTable } from '@/db/messaging/messages'
 
 sqlite3.verbose()
 let db
