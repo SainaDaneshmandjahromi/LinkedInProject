@@ -5,18 +5,24 @@ export async function createMessagesTable() {
         CREATE TABLE IF NOT EXISTS messages (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         userId INTEGER,
+        chatId INTEGER,
         text TEXT NOT NULL,
-        date TEXT NOT NULL,
+        date DATE,
         FOREIGN KEY (userId) REFERENCES users (id)
+        FOREIGN KEY (chatId) REFERENCES chats (id)
         )
     `)
 }
 
-// export async function getAllUsers(userId) {
-//     return getDb().all(`
-//         SELECT * FROM messages WHERE messages.userId = userId
-//     `)
-// }
+
+////Not checked
+export async function getAllMessages(chat) {
+    return getDb().all(`
+        SELECT * FROM messages WHERE messages.chatId = ?
+    `,
+    chat.id
+    )
+}
 
 export async function sendMessage(message) {
     return getDb().run(
