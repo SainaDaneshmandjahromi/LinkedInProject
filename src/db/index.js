@@ -14,6 +14,7 @@ import { createUserEndorsedSkillTable } from '@/db/user/userEndorsedSkill'
 import { createPostsTable } from '@/db/posting/posts'
 
 // messaging
+import { createChatsTable } from '@/db/messaging/chats'
 import { createMessagesTable } from '@/db/messaging/messages'
 
 sqlite3.verbose()
@@ -57,6 +58,7 @@ export async function createTables() {
     await createPostsTable()
 
     // messaging tables
+    await createChatsTable()
     await createMessagesTable()
 }
 
