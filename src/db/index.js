@@ -7,6 +7,8 @@ import { createAccomplishmentsTable } from '@/db/user/accomplishments'
 import { createSkillsTable } from '@/db/user/skills'
 import { createLanguagesTable } from '@/db/user/languages'
 import { createUserLanguageTable } from '@/db/user/userLanguage'
+import { createFavoritesTable } from '@/db/user/favorites'
+import { createUserEndorsedSkillTable } from '@/db/user/userEndorsedSkill'
 
 // posting
 import { createPostsTable } from '@/db/posting/posts'
@@ -32,19 +34,36 @@ export function getDb() {
     return db
 }
 
+// HELPERS:
+// exec for parameterless query
+// all for getting list multiple rows
+// get for one row
+// run is like exec but has param
+// https://github.com/kriasoft/node-sqlite
 export async function createTables() {
 
+    // TODO set ON DELETE and ON UPDATE for all tables
+
+    // user tables
     await createUsersTable()
     await createAccomplishmentsTable()
     await createSkillsTable()
     await createLanguagesTable()
     await createUserLanguageTable()
+    await createFavoritesTable()
+    await createUserEndorsedSkillTable()
 
+    // posting tables
     await createPostsTable()
 
+    // messaging tables
     await createMessagesTable()
-
-    //add other tables here
 }
 
-// TODO: add fake data generator function
+export async function generateRealData() {
+    // to be filled!
+}
+
+export async function generateFakeData() {
+    // to be filled!
+}

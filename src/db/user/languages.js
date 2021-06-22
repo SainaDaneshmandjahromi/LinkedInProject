@@ -1,10 +1,11 @@
 import { getDb } from '@/db'
 
+
 export async function createLanguagesTable() {
     await getDb().exec(`
         CREATE TABLE IF NOT EXISTS languages (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL
         )
     `)
 }
@@ -26,8 +27,29 @@ export async function getAllLanguages() {
 
 export async function insertLanguage(language) {
     return getDb().run(`
-        INSERT INTO language (name) values (?)
+        INSERT INTO languages (name) 
+        VALUES (?)
         `,
         language.name
+    )
+}
+
+export async function updateLanguage(id, newLanguage) {
+    return getDb().run(`
+        UPDATE languages
+        SET name = ?
+        WHERE id = ?
+        `,
+        newLanguage.name,
+        id
+    )
+}
+
+export async function deleteLanguage(id) {
+    return getDb().run(`
+        DELETE FROM languages
+        WHERE id = ?
+        `,
+        id
     )
 }

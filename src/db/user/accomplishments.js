@@ -1,51 +1,52 @@
 import { getDb } from '@/db'
 
+
 export async function createAccomplishmentsTable() {
     await getDb().exec(`
-        CREATE TABLE IF NOT EXISTS skills (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
-        FOREIGN KEY (userId) REFERENCES users (id)
+        CREATE TABLE IF NOT EXISTS accomplishments (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            userId INTEGER NOT NULL,
+            FOREIGN KEY (userId) REFERENCES users(id)
         )
     `)
 }
 
-// TODO
-// export async function getSkillsByUserId(id) {
-//     return getDb().all(`
-//         SELECT * FROM skills
-//         WHERE userId = ?
-//         `,
-//         id
-//     )
-// }
-//
-// export async function insertSkill(skill) {
-//     return getDb().run(`
-//         INSERT INTO skills (name, userId) values (?, ?)
-//         `,
-//         skill.name,
-//         skill.userId
-//     )
-// }
-//
-// export async function updateSkill(id, newSkill){
-//     return getDb().run(`
-//         UPDATE skills
-//         SET
-//             name = ?,
-//         WHERE id = ?
-//         `,
-//         newSkill.name,
-//         id
-//     )
-// }
-//
-// export async function deleteSkill(id){
-//     return getDb().run(`
-//         DELETE FROM skills
-//         WHERE id = ?
-//         `,
-//         id
-//     )
-// }
+export async function getAccomplishmentsByUserId(userId) {
+    return getDb().all(`
+        SELECT * FROM accomplishments
+        WHERE userId = ?
+        `,
+        userId
+    )
+}
+
+export async function insertAccomplishment(accomplishment) {
+    return getDb().run(`
+        INSERT INTO accomplishments (name, userId) 
+        VALUES (?, ?)
+        `,
+        accomplishment.name,
+        accomplishment.userId
+    )
+}
+
+export async function updateAccomplishment(id, newAccomplishment) {
+    return getDb().run(`
+        UPDATE accomplishments
+        SET name = ?
+        WHERE id = ?
+        `,
+        newAccomplishment.name,
+        id
+    )
+}
+
+export async function deleteAccomplishment(id) {
+    return getDb().run(`
+        DELETE FROM accomplishments
+        WHERE id = ?
+        `,
+        id
+    )
+}
