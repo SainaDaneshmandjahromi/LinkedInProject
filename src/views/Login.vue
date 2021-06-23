@@ -4,14 +4,14 @@
 
       <label>Username:</label>
       <b-form-input
-        v-model="user.username"
+        v-model="username"
         type="text"
         trim
       ></b-form-input>
 
       <label class="mt-2">Password:</label>
       <b-form-input
-        v-model="user.password"
+        v-model="password"
         type="password"
         trim
       ></b-form-input>
@@ -31,16 +31,30 @@
 </template>
 
 <script>
+import { getUserByUsername } from '@/db/user/users'
+
 export default {
   name: 'Login',
   data: () => ({
-    user: {
-      username: '',
-      password: ''
-    }
+    username: 'mohsen',
+    password: '1234'
   }),
   methods: {
-    login() {
+    async login() {
+      const user = await getUserByUsername(this.username)
+      console.log(user)
+
+      if (!user) {
+        console.log('Cannot find user with username ' + this.username)
+        return
+      }
+
+      if (user.password === this.password) {
+        console.log('you are good!')
+        await this.$router.push(`/user/${user.id}`)
+      } else {
+        console.log('invalid password')
+      }
 
     }
   },

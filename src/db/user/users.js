@@ -5,7 +5,7 @@ export async function createUsersTable() {
     await getDb().exec(`
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT NOT NULL,
+            username TEXT NOT NULL UNIQUE,
             password TEXT NOT NULL,
             birthday TEXT,
             intro TEXT,
@@ -23,6 +23,15 @@ export async function getUserById(id) {
         WHERE id = ?
         `,
         id
+    )
+}
+
+export async function getUserByUsername(username){
+    return getDb().get(`
+        SELECT * FROM users
+        WHERE username = ?
+        `,
+        username
     )
 }
 

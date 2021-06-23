@@ -18,7 +18,7 @@
 
       <label class="mt-2">Birthday:</label>
       <b-form-input
-        v-model="user.password"
+        v-model="user.birthday"
         type="date"
         trim
       ></b-form-input>
@@ -37,22 +37,33 @@
 </template>
 
 <script>
+import { insertUser, getUserByUsername } from '@/db/user/users'
+
 export default {
   name: 'Signup',
   data: () => ({
     user: {
       username: '',
-      password: ''
+      password: '',
+      birthday: ''
     }
   }),
   methods: {
-    signup(){
+    async signup(){
+      const takenUser = await getUserByUsername(this.user.username)
+      if (takenUser){
+        console.log('this username is already taken')
+        return
+      }
 
+      await insertUser(this.user)
+      const user = await getUserByUsername(this.user.username)
+      await this.$router.push(`/user/${user.id}`)
     }
   },
   computed: {
     allowSignup() {
-      return this.username === '' || this.password === ''
+      return this.user.username === '' || this.user.password === ''
     }
   },
 }
