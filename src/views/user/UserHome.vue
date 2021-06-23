@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container fluid>
     <p>Loaded Id: {{ user.id }} </p>
     <p>Loaded username: {{ user.username }} </p>
   </b-container>

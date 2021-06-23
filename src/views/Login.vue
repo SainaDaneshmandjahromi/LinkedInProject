@@ -36,8 +36,8 @@ import { getUserByUsername } from '@/db/user/users'
 export default {
   name: 'Login',
   data: () => ({
-    username: 'mohsen',
-    password: '1234'
+    username: '',
+    password: ''
   }),
   methods: {
     async login() {
