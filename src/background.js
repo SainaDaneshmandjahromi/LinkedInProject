@@ -17,6 +17,7 @@ async function createWindow() {
   const win = new BrowserWindow({
     width: 800,
     height: 600,
+    // TODO: Add linkedin logo for app
     webPreferences: {
       
       // Use pluginOptions.nodeIntegration, leave this alone
