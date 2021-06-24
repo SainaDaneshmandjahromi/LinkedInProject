@@ -4,13 +4,13 @@ import { getDb } from '@/db'
 export async function createCommentLikesTable() {
     await getDb().exec(`
         CREATE TABLE IF NOT EXISTS comment_likes (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        userID INTEGER,
-        commentID INTEGER,
-        FOREIGN KEY (userId) REFERENCES users (id),
-        FOREIGN KEY (commnetId) REFERENCES comments (id)
-    
-        )
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            userID INTEGER,
+            commentID INTEGER,
+            FOREIGN KEY (userId) REFERENCES users (id),
+            FOREIGN KEY (commnetId) REFERENCES comments (id)
+        
+            )
     `)
 }
 
