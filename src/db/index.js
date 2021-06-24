@@ -12,7 +12,9 @@ import { createUserEndorsedSkillTable } from '@/db/user/userEndorsedSkill'
 
 // posting
 import { createPostsTable } from '@/db/posting/posts'
-
+import {createCommentsTable}  from '@/db/posting/posts'
+import {createPostLikesTable } from '@/db/posting/posts'
+import {createCommentLikesTable } from '@/db/posting/posts'
 // messaging
 import { createChatsTable } from '@/db/messaging/chats'
 import { createMessagesTable } from '@/db/messaging/messages'
@@ -56,7 +58,10 @@ export async function createTables() {
 
     // posting tables
     await createPostsTable()
-
+    await createCommentsTable() 
+    await createPostLikesTable() 
+    await createCommentLikesTable() 
+    
     // messaging tables
     await createChatsTable()
     await createMessagesTable()

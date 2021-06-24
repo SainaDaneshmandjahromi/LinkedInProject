@@ -6,8 +6,10 @@ export async function createPostsTable() {
         CREATE TABLE IF NOT EXISTS posts (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         userID INTEGER,
-        text TEXT NOT NULL,
-        media TEXT DEFAULT NULL
+        text TEXT NOT NULL
+        media TEXT DEFAULT NULL,
+        date DATE,
+        FOREIGN KEY (userId) REFERENCES users (id),
         )
     `)
 }
@@ -27,10 +29,11 @@ export async function getUserPosts(user) {
 export async function insertPost(user,post) {
     return getDb().run(
         `
-        INSERT INTO POSTS (text,media,userID) values (?, ?, ?)
+        INSERT INTO POSTS (text,media,date,userID) values (?, ?,?, ?)
        `,
         post.text,
         post.media, 
+        post.date,
         user.id
     )
 }
