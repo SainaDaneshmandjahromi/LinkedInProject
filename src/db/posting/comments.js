@@ -4,14 +4,14 @@ import { getDb } from '@/db'
 export async function createCommentsTable() {
     await getDb().exec(`
         CREATE TABLE IF NOT EXISTS comments (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        userID INTEGER,
-        postID INTEGER,
-        text TEXT NOT NULL,
-        date DATE,
-        FOREIGN KEY (userId) REFERENCES users (id),
-        FOREIGN KEY (postId) REFERENCES posts (id)
-        )
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            userID INTEGER,
+            postID INTEGER,
+            text TEXT NOT NULL,
+            date DATE,
+            FOREIGN KEY (userId) REFERENCES users (id),
+            FOREIGN KEY (postId) REFERENCES posts (id)
+            )
     `)
 }
 

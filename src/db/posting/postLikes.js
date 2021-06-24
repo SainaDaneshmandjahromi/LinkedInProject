@@ -4,11 +4,11 @@ import { getDb } from '@/db'
 export async function createPostLikesTable() {
     await getDb().exec(`
         CREATE TABLE IF NOT EXISTS post_likes (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        userID INTEGER,
-        postID INTEGER,
-        FOREIGN KEY (userId) REFERENCES users (id),
-        FOREIGN KEY (postId) REFERENCES posts (id)
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            userID INTEGER,
+            postID INTEGER,
+            FOREIGN KEY (userId) REFERENCES users (id),
+            FOREIGN KEY (postId) REFERENCES posts (id)
     
         )
     `)

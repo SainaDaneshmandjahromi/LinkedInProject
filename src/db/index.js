@@ -13,8 +13,8 @@ import { createUserEndorsedSkillTable } from '@/db/user/userEndorsedSkill'
 // posting
 import { createPostsTable } from '@/db/posting/posts'
 import {createCommentsTable}  from '@/db/posting/comments'
-import {createPostLikesTable } from '@/db/posting/post-likes'
-import {createCommentLikesTable } from '@/db/posting/comment-likes'
+import {createPostLikesTable } from '@/db/posting/postLikes'
+import {createCommentLikesTable } from '@/db/posting/commentLikes'
 
 // messaging
 import { createChatsTable } from '@/db/messaging/chats'
