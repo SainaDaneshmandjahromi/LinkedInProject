@@ -3,34 +3,35 @@ import { getDb } from '@/db'
 export async function createMessagesTable() {
     await getDb().exec(`
         CREATE TABLE IF NOT EXISTS messages (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        userId INTEGER,
-        chatId INTEGER,
-        text TEXT NOT NULL,
-        date DATE,
-        FOREIGN KEY (userId) REFERENCES users (id)
-        FOREIGN KEY (chatId) REFERENCES chats (id)
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            userId INTEGER NOT NULL,
+            chatId INTEGER NOT NULL,
+            content TEXT NOT NULL,  
+            date NTEXT,
+            FOREIGN KEY (userId) REFERENCES users (id)
+            FOREIGN KEY (chatId) REFERENCES chats (id)
         )
     `)
 }
 
 
 ////Not checked
-export async function getAllMessages(chat) {
+export async function getAllMessages(chatId) {
     return getDb().all(`
         SELECT * FROM messages WHERE messages.chatId = ?
     `,
-    chat.id
+    chatId
     )
 }
 
 export async function sendMessage(message) {
     return getDb().run(
         `
-        INSERT INTO messages (userId, text, date) values (?, ?, ?)
+        INSERT INTO messages (userId, chatId, content, date) values (?, ?, ?, ?)
        `,
         message.userId,
-        message.text,
+        message.chatId,
+        message.content,
         message.date
     )
 }

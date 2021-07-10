@@ -14,7 +14,7 @@ import { createUserEndorsedSkillTable } from '@/db/user/userEndorsedSkill'
 import { createPostsTable } from '@/db/posting/posts'
 import {createCommentsTable}  from '@/db/posting/comments'
 import {createPostLikesTable } from '@/db/posting/postLikes'
-import {createCommentLikesTable } from '@/db/posting/commentLikes'
+// import {createCommentLikesTable } from '@/db/posting/commentLikes'
 
 // messaging
 import { createChatsTable } from '@/db/messaging/chats'
@@ -48,6 +48,7 @@ export async function createTables() {
 
     // TODO set ON DELETE and ON UPDATE for all tables
 
+
     // user tables
     await createUsersTable()
     await createAccomplishmentsTable()
@@ -57,15 +58,16 @@ export async function createTables() {
     await createFavoritesTable()
     await createUserEndorsedSkillTable()
 
+        
+    // messaging tables  //DO NOT CHANGE THE PLACE
+    await createChatsTable()
+    await createMessagesTable()
+ 
     // posting tables
     await createPostsTable()
     await createCommentsTable() 
     await createPostLikesTable() 
     await createCommentLikesTable() 
-    
-    // messaging tables
-    await createChatsTable()
-    await createMessagesTable()
 }
 
 export async function generateRealData() {

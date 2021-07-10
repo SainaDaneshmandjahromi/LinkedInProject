@@ -3,26 +3,24 @@ import { getDb } from '@/db'
 export async function createChatsTable() {
     await getDb().exec(`
         CREATE TABLE IF NOT EXISTS chats (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        firstParticipantId INTEGER,
-        secondParticipantId INTEGER,
-        archiveStat TEXT CHECK(archive IN ('isNotArchive', 'isArchive')) NOT NULL DEFAULT 'isNotArchive',
-        FOREIGN KEY (firstParticipantId) REFERENCES users (id),
-        FOREIGN KEY (secondParticipantId) REFERENCES users (id)
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            firstParticipantId INTEGER NOT NULL,
+            secondParticipantId INTEGER NOT NULL,
+            archiveStat TEXT NOT NULL,
+            FOREIGN KEY (firstParticipantId) REFERENCES users (id),
+            FOREIGN KEY (secondParticipantId) REFERENCES users (id)
         )
     `)
 }
 
-/////Not Checked
-export async function getAllChats(user) {
+export async function getAllChats(userId) {
     return getDb().all(
         `
-        SELECT * FROM messages 
-        WHERE firstParticipantId = ? or 
-              secondParticipantId = ? 
+        SELECT * FROM chats 
+        WHERE firstParticipantId = ? OR secondParticipantId = ?
         `,
-         user.id,
-         user.id
+        userId,
+        userId
     )
 }
 
@@ -37,35 +35,26 @@ export async function insertChat(chat) {
     )
 }
 
-export async function deleteChat(chat) {
+export async function deleteChat(chatId) {
     return getDb().all(
         `
         DELETE FROM chats 
         WHERE id = ?
         `,
-         chat.id
+         chatId
     )
 }
 
-export async function archiveChat(chat) {
+export async function updateArchiveChatStat(chatId,newStat) {
     return getDb().all(
         `
         UPDATE chats SET archiveStat = ? 
         WHERE id = ?
         `,
-         'isArchive',
-         chat.id
+        newStat,
+        chatId
     )
 }
 
-export async function unarchiveChat(chat) {
-    return getDb().all(
-        `
-        UPDATE chats SET archiveStat = ? 
-        WHERE id = ?
-        `,
-         'isNotArchive',
-         chat.id
-    )
-}
+
 
