@@ -9,6 +9,7 @@ import { createLanguagesTable } from '@/db/user/languages'
 import { createUserLanguageTable } from '@/db/user/userLanguage'
 import { createFavoritesTable } from '@/db/user/favorites'
 import { createUserEndorsedSkillTable } from '@/db/user/userEndorsedSkill'
+import { createInvitationTable } from '@/db/user/invitations'
 
 // posting
 import { createPostsTable } from '@/db/posting/posts'
@@ -57,6 +58,7 @@ export async function createTables() {
     await createUserLanguageTable()
     await createFavoritesTable()
     await createUserEndorsedSkillTable()
+    await createInvitationTable()
 
         
     // messaging tables  //DO NOT CHANGE THE PLACE
