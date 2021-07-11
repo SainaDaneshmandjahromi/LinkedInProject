@@ -5,11 +5,11 @@ export async function createPostsTable() {
     await getDb().exec(`
         CREATE TABLE IF NOT EXISTS posts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            userID INTEGER,
-            text TEXT NOT NULL
-            media TEXT DEFAULT NULL,
+            userId INTEGER,
+            text TEXT NOT NULL,
+            media TEXT ,
             date DATE,
-            FOREIGN KEY (userId) REFERENCES users (id),
+            FOREIGN KEY (userId) REFERENCES users (id)
             )
     `)
 }
@@ -18,18 +18,25 @@ export async function createPostsTable() {
 // get for one row 
 export async function getUserPosts(user) {
     return getDb().all(`
-        SELECT * FROM POSTS
+        SELECT * FROM posts
          WHERE
-          userID =${user.id}
+          userId =${user.id}
     `)
 }
 
+export async function getUserPostsAndPostLikes(user) {
+    return getDb().all(`
+        SELECT * FROM posts, post_likes
+         WHERE
+          posts.userId =${user.id} and posts.id = post_likes.postId
+    `)
+}
 
 // run is like exec but has param 
 export async function insertPost(user,post) {
     return getDb().run(
         `
-        INSERT INTO POSTS (text,media,date,userID) values (?, ?,?, ?)
+        INSERT INTO posts (text,media,date,userId) values (?,?,?,?)
        `,
         post.text,
         post.media, 
