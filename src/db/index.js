@@ -18,8 +18,8 @@ import { createMessagesTable } from '@/db/messaging/messages'
 
 // posting
 import { createPostsTable } from '@/db/posting/posts'
-import {createCommentsTable}  from '@/db/posting/comments'
-import {createPostLikesTable } from '@/db/posting/postLikes'
+import { createCommentsTable } from '@/db/posting/comments'
+import { createPostLikesTable } from '@/db/posting/postLikes'
 // import {createCommentLikesTable } from '@/db/posting/commentLikes'
 
 
@@ -51,6 +51,7 @@ export async function createTables() {
 
     // TODO set ON DELETE and ON UPDATE for all tables
 
+    // the order of creating tables is important due another tables foreign key definition
 
     // user tables
     await createUsersTable()
@@ -64,16 +65,16 @@ export async function createTables() {
     await createConnectionsTable()
 
 
-        
-    // messaging tables  //DO NOT CHANGE THE PLACE
+    // messaging tables  //DO NOT CHANGE THE PLACE (or you will die by saina's rage -_-)
     await createChatsTable()
     await createMessagesTable()
- 
+
+
     // posting tables
     await createPostsTable()
-    await createCommentsTable() 
-    await createPostLikesTable() 
-    await createCommentLikesTable() 
+    await createCommentsTable()
+    await createPostLikesTable()
+    // await createCommentLikesTable()
 }
 
 export async function generateRealData() {

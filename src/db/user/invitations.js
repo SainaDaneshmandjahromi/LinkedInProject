@@ -1,7 +1,7 @@
 import { getDb } from '@/db'
 
 
-export async function createInvitationTable() {
+export async function createInvitationsTable() {
     await getDb().exec(`
         CREATE TABLE IF NOT EXISTS invitations (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
