@@ -36,14 +36,16 @@ export async function getPostComments(post) {
     return getDb().all(`
         SELECT * FROM comments
         WHERE
-        postId =${post.id} 
-    `)
+        postId =?
+    `, 
+    post.id)
 }
 //get one comment replies and likes of each reply
 export async function getCommentReplies(comment) {
     return getDb().all(`
         SELECT * FROM comments, comment_likes
         WHERE
-        repliedCommentId =${comment.id} and comments.id = comment_likes.commentId
-    `)
+        repliedCommentId = ? and comments.id = comment_likes.commentId
+    `,
+    comment.id)
 }

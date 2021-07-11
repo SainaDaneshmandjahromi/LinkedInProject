@@ -17,8 +17,9 @@ export async function getPostLikes(post) {
     return getDb().all( `
         SELECT * FROM post_likes
         WHERE
-        post_likes.postId =${post.id} 
-        `
+        post_likes.postId = ?
+        `,
+        post.id
     )
 }
 

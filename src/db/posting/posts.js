@@ -20,16 +20,20 @@ export async function getUserPosts(user) {
     return getDb().all(`
         SELECT * FROM posts
          WHERE
-          userId =${user.id}
-    `)
+          userId = ?
+    `,
+    user.id
+    )
 }
 
 export async function getUserPostsAndPostLikes(user) {
     return getDb().all(`
         SELECT * FROM posts, post_likes
          WHERE
-          posts.userId =${user.id} and posts.id = post_likes.postId
-    `)
+          posts.userId = ? and posts.id = post_likes.postId
+    `,
+    user.id
+    )
 }
 
 // run is like exec but has param 
