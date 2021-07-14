@@ -6,10 +6,12 @@ export async function createPostsTable() {
         CREATE TABLE IF NOT EXISTS posts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             userId INTEGER,
+            sharedPostId,
             text TEXT NOT NULL,
             media TEXT ,
             date DATE,
-            FOREIGN KEY (userId) REFERENCES users (id)
+            FOREIGN KEY (userId) REFERENCES users (id),
+            FOREIGN KEY (sharedPostId) REFERENCES posts (id)
             )
     `)
 }
@@ -46,5 +48,19 @@ export async function insertPost(user,post) {
         post.media, 
         post.date,
         user.id
+    )
+}
+// run is like exec but has param 
+export async function sharePost(user,post,sharepostid) {
+    return getDb().run(
+        `
+        INSERT INTO posts (text,media,date,userId, sharedPostId) values (?,?,?,?,?)
+       `,
+
+        post.text,
+        post.media, 
+        post.date,
+        user.id,
+        sharepostid
     )
 }
