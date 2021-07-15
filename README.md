@@ -1,4 +1,4 @@
-# linkedin-db-project
+# 🧿🧿🧿🧿🧿 linkedin-db-project 🧿🧿🧿🧿🧿
 Implemented by electronjs, vuejs and sqlite
 
 ## Project setup
