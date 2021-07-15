@@ -4,6 +4,10 @@
     <br>
     <p>Loaded Id: {{ user.id }} </p>
     <p>Loaded username: {{ user.username }} </p>
+    <b-button
+      :to="`/user/${this.$route.params.userId}/newpost`"
+      variant="danger"
+    >Create New Post</b-button>
   </section>
 </template>
 
