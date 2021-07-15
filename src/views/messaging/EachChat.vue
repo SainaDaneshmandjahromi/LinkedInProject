@@ -1,6 +1,7 @@
 <template>
     <b-list-group>
-    <b-list-group-item class="d-flex justify-content-between align-items-center" >
+    <b-list-group-item button class="d-flex justify-content-between align-items-center" 
+            @click="$emit('showMessages', chat.id)">
           {{user.username}}
     <!-- <b-badge variant="primary" pill>14</b-badge> -->
     </b-list-group-item>
@@ -19,7 +20,7 @@ export default {
     user: {
       id: '',
       username: '',
-    }
+    },
   }),
   async mounted() {
     if(this.chat.firstParticipantId == this.$route.params.userId){

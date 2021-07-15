@@ -1,7 +1,9 @@
 <template>
     <div>
         <div :key="chat.id" v-for="chat in chats">
-            <EachChat :chat="chat" />
+            <EachChat 
+            @showMessages = "goToChat"
+            :chat="chat" />
         </div>
     </div>
 </template>
@@ -21,6 +23,12 @@ export default {
     components: {
         EachChat,
     },
+    methods:{
+        goToChat(Id){
+               this.$router.push(`/user/${this.$route.params.userId}/chat/${Id}`)
+        }
+    },
+    emits: ['showMessages'],
     async mounted() {
         this.chats = await getAllChats(this.$route.params.userId)
     }
