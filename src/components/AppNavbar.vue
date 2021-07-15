@@ -20,7 +20,7 @@
       <b-navbar-nav class="ml-auto">
         <b-nav-item :to="`/user/${this.$route.params.userId}`">Home</b-nav-item>
         <b-nav-item>My Network</b-nav-item>
-        <b-nav-item>Messaging</b-nav-item>
+        <b-nav-item  :to="`/user/${this.$route.params.userId}/chat`">Messaging</b-nav-item>
         <b-nav-item>Notifications</b-nav-item>
         <b-nav-item :to="`/user/${this.$route.params.userId}/profile`">Profile</b-nav-item>
       </b-navbar-nav>
