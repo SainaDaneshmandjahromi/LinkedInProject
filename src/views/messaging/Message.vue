@@ -53,8 +53,14 @@ export default {
             this.messages = await getAllMessages(this.$route.params.chatId)
         },
         deleteThisChat(){
+            console.log(this.$route)
             deleteChat(this.$route.params.chatId)
-            this.$router.push(`/user/${this.$route.params.userId}/chat`)
+            if(this.$route.name == "ArchivedMessage"){
+                this.$router.push(`/user/${this.$route.params.userId}/archivedchat`)
+            }
+            else{
+                this.$router.push(`/user/${this.$route.params.userId}/chat`)
+            }
         }
     }
 }
