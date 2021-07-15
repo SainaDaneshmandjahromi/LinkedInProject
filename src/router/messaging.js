@@ -12,13 +12,5 @@ export default [
         name: 'Message',
         component: Message,
     },
-        // children: [
-        //     {
-        //         path: ':chatId',
-        //         name: 'Message',
-        //         component: Message
-        //     },
-        // ]
-
 
 ]

@@ -24,7 +24,7 @@ export default {
     methods:{
         goToChat(Id){
                this.$router.push(`/user/${this.$route.params.userId}/chat/${Id}`)
-        }
+        },
     },
     emits: ['showMessages'],
     async mounted() {
