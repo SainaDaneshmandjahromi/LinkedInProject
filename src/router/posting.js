@@ -1,4 +1,4 @@
-import NewPost from '@/views/post/NewPost'
+import NewPost from '@/views/posting/NewPost'
 
 export default [
     {
