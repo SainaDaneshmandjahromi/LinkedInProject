@@ -1,7 +1,5 @@
 <template>
   <section>
-    <h1>This user home!</h1>
-    <br>
     <p>Loaded Id: {{ user.id }} </p>
     <p>Loaded username: {{ user.username }} </p>
   </section>
@@ -11,7 +9,7 @@
 import { getUserById } from '@/db/user/users'
 
 export default {
-  name: 'UserHome',
+  name: 'UserProfile',
   data: () => ({
     user: {
       id: '',
