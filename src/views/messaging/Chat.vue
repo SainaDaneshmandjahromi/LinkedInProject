@@ -24,6 +24,9 @@ export default {
     name: 'Chat',
     data: () => ({
         chats:[],
+        chatStatus:{
+            status:''
+        }
     }),
     components: {
         UserChat

@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { getAllChats } from '@/db/messaging/chats'
+import { getAllArchivedChats } from '@/db/messaging/chats'
 import { deleteChat } from '@/db/messaging/chats'
 
 import UserChat from '@/components/UserChat'
@@ -39,7 +39,7 @@ export default {
     },
     emits: ['showMessages'],
     async mounted() {
-        this.chats = await getAllChats(this.$route.params.userId)
+        this.chats = await getAllArchivedChats(this.$route.params.userId)
     }
 }
 </script>
