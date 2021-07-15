@@ -1,6 +1,9 @@
 <template>
     <div>
         <div>
+        <chat-option @deleteChat = "deleteThisChat" />
+        </div>
+        <div>
             <div :key="message.id" v-for="message in messages">
                 <message-chat
                 :message="message"
@@ -17,9 +20,11 @@
 <script>
 import { getAllMessages } from '@/db/messaging/messages'
 import { sendMessage } from '@/db/messaging/messages'
+import { deleteChat } from '@/db/messaging/chats'
 
 import MessageChat from '@/components/MessageChat.vue'
 import SendMessage from '@/components/SendMessage.vue'
+import ChatOption from '@/components/ChatOption.vue'
 
 export default {
     name: 'Message',
@@ -33,7 +38,8 @@ export default {
     }),
     components: {
         MessageChat,
-        SendMessage
+        SendMessage,
+        ChatOption
     },
     async mounted() {
         this.messages = await getAllMessages(this.$route.params.chatId)
@@ -45,6 +51,10 @@ export default {
             this.message.content = newcontent,
             sendMessage(this.message),
             this.messages = await getAllMessages(this.$route.params.chatId)
+        },
+        deleteThisChat(){
+            deleteChat(this.$route.params.chatId)
+            this.$router.push(`/user/${this.$route.params.userId}/chat`)
         }
     }
 }

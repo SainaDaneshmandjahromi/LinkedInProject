@@ -9,6 +9,7 @@
 <script>
 import { getUserById } from '@/db/user/users'
 
+
 export default {
   name: 'user-chat',
   props: {

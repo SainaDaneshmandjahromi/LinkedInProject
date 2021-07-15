@@ -10,6 +10,7 @@
 
 <script>
 import { getAllChats } from '@/db/messaging/chats'
+import { deleteChat } from '@/db/messaging/chats'
 
 import UserChat from '@/components/UserChat'
 
@@ -25,6 +26,7 @@ export default {
         goToChat(Id){
                this.$router.push(`/user/${this.$route.params.userId}/chat/${Id}`)
         },
+
     },
     emits: ['showMessages'],
     async mounted() {
