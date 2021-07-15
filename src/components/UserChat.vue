@@ -12,7 +12,7 @@
 import { getUserById } from '@/db/user/users'
 
 export default {
-  name: 'EachChat',
+  name: 'user-chat',
   props: {
     chat: Object,
   },

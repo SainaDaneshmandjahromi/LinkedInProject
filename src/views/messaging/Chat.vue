@@ -1,7 +1,7 @@
 <template>
     <div>
         <div :key="chat.id" v-for="chat in chats">
-            <EachChat 
+            <user-chat 
             @showMessages = "goToChat"
             :chat="chat" />
         </div>
@@ -11,9 +11,7 @@
 <script>
 import { getAllChats } from '@/db/messaging/chats'
 
-
-import EachChat from './EachChat'
-
+import UserChat from '@/components/UserChat'
 
 export default {
     name: 'Chat',
@@ -21,7 +19,7 @@ export default {
         chats:[],
     }),
     components: {
-        EachChat,
+        UserChat
     },
     methods:{
         goToChat(Id){
