@@ -1,8 +1,18 @@
 <template>
-  <b-container fluid>
+  <section>
+    <h1>This user home!</h1>
+    <br>
     <p>Loaded Id: {{ user.id }} </p>
     <p>Loaded username: {{ user.username }} </p>
-  </b-container>
+    <b-button
+      :to="`/user/${this.$route.params.userId}/newpost`"
+      variant="danger"
+    >Create New Post</b-button>
+    <b-button
+      :to="`/user/${this.$route.params.userId}/myposts`"
+      variant="danger"
+    >my posts</b-button>
+  </section>
 </template>
 
 <script>
