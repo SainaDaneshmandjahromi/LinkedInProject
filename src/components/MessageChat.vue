@@ -11,7 +11,7 @@ import { getUserById } from '@/db/user/users'
 
 
 export default {
-  name: 'user-chat',
+  name: 'message-chat',
   props: {
     message: Object,
   },
