@@ -4,6 +4,7 @@
         <chat-option @deleteChat = "deleteThisChat"
                      @UnArchiveChat = "UnArchiveChat"
                      @ArchiveChat = "ArchiveChat"
+                     :unreadStat="unreadStat"
                      :chat="chat"
                 />
         </div>
@@ -22,7 +23,7 @@
 </template>
 
 <script>
-import { getAllMessages, sendMessage, updateMessagesStat  } from '@/db/messaging/messages'
+import { getAllMessages, sendMessage, updateMessagesStat, getUnreadCount  } from '@/db/messaging/messages'
 import { deleteChat,  getChatByChatId, updateArchiveChatStat } from '@/db/messaging/chats'
 
 import MessageChat from '@/components/MessageChat.vue'
@@ -43,6 +44,10 @@ export default {
             firstParticipantId:'',
             secondParticipantId:'',
             archiveStat:''
+        },
+        unreadStat:{
+            id:'',
+            cnt:''
         }
     }),
     components: {
@@ -54,7 +59,11 @@ export default {
     async mounted() {
         this.messages = await getAllMessages(this.$route.params.chatId),
         this.chat = await getChatByChatId(this.$route.params.chatId),
+
         await updateMessagesStat(this.$route.params.chatId, this.$route.params.userId, "Read")
+
+        this.unreadStat = await getUnreadCount(this.chat.id,this.$route.params.userId)
+
     },
 
     methods:{
