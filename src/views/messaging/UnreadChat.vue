@@ -16,16 +16,13 @@
 </template>
 
 <script>
-import { getAllChats } from '@/db/messaging/chats'
+import { getNotReadChats } from '@/db/messaging/userChats'
 import { deleteChat } from '@/db/messaging/chats'
 import UserChat from '@/components/UserChat'
 export default {
     name: 'Chat',
     data: () => ({
         chats:[],
-        chatStatus:{
-            status:''
-        }
     }),
     components: {
         UserChat
@@ -43,7 +40,7 @@ export default {
     },
     emits: ['showMessages'],
     async mounted() {
-        this.chats = await getAllChats(this.$route.params.userId)
+        this.chats = await getNotReadChats(this.$route.params.userId)
     }
 }
 </script>

@@ -24,7 +24,8 @@
 
 <script>
 import { getAllMessages, sendMessage, updateMessagesStat, getUnreadCount  } from '@/db/messaging/messages'
-import { deleteChat,  getChatByChatId, updateArchiveChatStat } from '@/db/messaging/chats'
+import { deleteChat,  getChatByChatId, updateArchiveChatStat 
+        ,updateUnreadFirstParticipant, updateUnreadSecondParticipant} from '@/db/messaging/chats'
 
 import MessageChat from '@/components/MessageChat.vue'
 import SendMessage from '@/components/SendMessage.vue'
@@ -43,6 +44,8 @@ export default {
         chat:{
             firstParticipantId:'',
             secondParticipantId:'',
+            unreadStatFirstParticipant:'',
+            unreadStatSecondParticipant:'',
             archiveStat:''
         },
         unreadStat:{
@@ -62,7 +65,17 @@ export default {
 
         await updateMessagesStat(this.$route.params.chatId, this.$route.params.userId, "Read")
 
-        this.unreadStat = await getUnreadCount(this.chat.id,this.$route.params.userId)
+        if(this.$route.params.userId == this.chat.firstParticipantId){
+            updateUnreadFirstParticipant(this.$route.params.userId, "Read")
+            console.log("I'm First")
+        }
+        else if(this.$route.params.userId == this.chat.secondParticipantId){
+            updateUnreadSecondParticipant(this.$route.params.userId, "Read")
+            console.log("I'm Second")
+        }
+
+        ///Changed This Check if it works
+        this.unreadStat = await getUnreadCount(this.$route.params.chatId,this.$route.params.userId)
 
     },
 

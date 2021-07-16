@@ -1,30 +1,48 @@
 <template>
-  <div>
+    <!-- Archive Or Normal -->
     <b-list-group v-if="pageStat.unread == 0">
-    <b-list-group-item button class="d-flex justify-content-between align-items-center" 
-            @click="$emit('showMessages', chat.id)">
-          {{user.username}}
-        
-    <b-badge variant="primary" pill v-if="mychat.cnt != 0">{{mychat.cnt}}</b-badge>
+      <b-list-group-item button class="d-flex justify-content-between align-items-center" 
+              @click="$emit('showMessages', chat.id)">
+            {{user.username}}
+          
+      <b-badge variant="primary" pill v-if="mychatuser.messageUnreadCount != 0">
+        {{mychatuser.messageUnreadCount}}</b-badge>
+      
+      <b-badge variant="primary" pill v-else-if="mychatuser.readChatStat === 'Notread'">
+      unread </b-badge>
 
-    </b-list-group-item>
+      </b-list-group-item>
     </b-list-group>
 
-    <b-list-group v-else>
-    <b-list-group-item button v-if="mychat.cnt != 0" class="d-flex justify-content-between align-items-center" 
-            @click="$emit('showMessages', chat.id)">
-          {{user.username}}
-        
-    <b-badge variant="primary" pill v-if="mychat.cnt != 0">{{mychat.cnt}}</b-badge>
+    <!-- Unread -->
+    <div v-else>
+      <b-list-group v-if="mychatuser.messageUnreadCount != 0">
+        <b-list-group-item button v-if="mychatuser.messageUnreadCount != 0" 
+                          class="d-flex justify-content-between align-items-center" @click="$emit('showMessages', chat.id)">
+                          {{user.username}}
+            
+        <b-badge variant="primary" pill v-if="mychatuser.messageUnreadCount != 0">
+          {{ mychatuser.messageUnreadCount }}</b-badge>
 
-    </b-list-group-item>
-    </b-list-group>
+        </b-list-group-item>
+      </b-list-group>
+
+      <b-list-group v-else-if="mychatuser.readChatStat === 'NotRead'">
+        <b-list-group-item button  class="d-flex justify-content-between align-items-center" 
+                                   @click="$emit('showMessages', chat.id)">{{user.username}}
+            
+        <b-badge variant="primary" pill v-if="mychatuser.messageUnreadCount != 0">
+          {{ mychatuser.messageUnreadCount }}</b-badge>
+        <b-badge variant="primary" pill v-else> unread </b-badge>
+
+        </b-list-group-item>
+      </b-list-group>
   </div>
 </template>
 
 <script>
 import { getUserById } from '@/db/user/users'
-import { getUnreadCount } from '@/db/messaging/messages'
+import {  getUserChat } from '@/db/messaging/userChats'
 
 export default {
   name: 'user-chat',
@@ -37,9 +55,13 @@ export default {
       id: '',
       username: '',
     },
-    mychat:{
+    mychatuser:{
       id:'',
-      cnt:''
+      userId : '',
+      chatId : '',
+      messageUnreadCount : '',
+      archiveChatStat: '',
+      readChatStat: '',
     },
     pageStat:{
       unread:''
@@ -53,7 +75,10 @@ export default {
     else{
       this.user = await getUserById(this.chat.firstParticipantId)
     }
-    this.mychat = await getUnreadCount(this.chat.id,this.$route.params.userId)
+
+    this.mychatuser = await getUserChat(this.chat.id,this.$route.params.userId)
+      console.log(await this.mychatuser)
+
     if(this.$route.name == "UnreadChat"){
       this.pageStat.unread = 1
     }
