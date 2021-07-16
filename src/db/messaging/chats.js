@@ -35,6 +35,20 @@ export async function getAllArchivedChats(userId) {
     )
 }
 
+// export async function getAllUnreadChats(userId) {
+//     return getDb().all(
+//         `
+//         SELECT * FROM chats WHERE id IN (
+//         SELECT chats.id FROM messages
+//         JOIN chats ON chats.id = messages.chatId 
+//         WHERE 
+//         messages.messageStat = "Unread" AND  count(distinct messages.id) != 0 
+//         AND messages.userId != ? )
+//         `,
+//         userId,
+//     )
+// }
+
 export async function getChatByChatId(chatId) {
     return getDb().get(
         `

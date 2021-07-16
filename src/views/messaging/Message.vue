@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { getAllMessages, sendMessage  } from '@/db/messaging/messages'
+import { getAllMessages, sendMessage, updateMessagesStat  } from '@/db/messaging/messages'
 import { deleteChat,  getChatByChatId, updateArchiveChatStat } from '@/db/messaging/chats'
 
 import MessageChat from '@/components/MessageChat.vue'
@@ -36,6 +36,7 @@ export default {
         message : {
             userId: '',
             chatId: '',
+            messageStat:'',
             content: ''
         },
         chat:{
@@ -49,36 +50,46 @@ export default {
         SendMessage,
         ChatOption
     },
+
     async mounted() {
         this.messages = await getAllMessages(this.$route.params.chatId),
-        this.chat = await getChatByChatId(this.$route.params.chatId)
+        this.chat = await getChatByChatId(this.$route.params.chatId),
+        await updateMessagesStat(this.$route.params.chatId, this.$route.params.userId, "Read")
     },
+
     methods:{
         async sendMyMessage(newcontent){
 
             this.message.userId =  this.$route.params.userId,
             this.message.chatId = this.$route.params.chatId,
             this.message.content = newcontent,
+            this.message.messageStat = "Unread",
 
             sendMessage(this.message),
 
             this.messages = await getAllMessages(this.$route.params.chatId)
         },
+
         deleteThisChat(){
             deleteChat(this.$route.params.chatId)
 
             if(this.$route.name == "ArchivedMessage"){
                 this.$router.push(`/user/${this.$route.params.userId}/archivedchat`)
             }
+            else if(this.$route.name == "UnreadMessage"){
+                this.$router.push(`/user/${this.$route.params.userId}/unreadchat`)
+            }
             else{
                 this.$router.push(`/user/${this.$route.params.userId}/chat`)
             }
         },
+
         UnArchiveChat(){
             updateArchiveChatStat(this.$route.params.chatId,"NotArchived")
             this.$router.push(`/user/${this.$route.params.userId}/chat`)
             alert("Chat Removed from Archive");
         },
+
         ArchiveChat(){
             updateArchiveChatStat(this.$route.params.chatId,"Archived"),
             this.$router.push(`/user/${this.$route.params.userId}/archivedchat`)

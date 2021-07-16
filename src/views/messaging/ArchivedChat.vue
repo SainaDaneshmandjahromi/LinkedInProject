@@ -4,6 +4,7 @@
         <b-tabs content-class="mt-3" fill>
             <b-tab title="AllChats" @click="goToChat"><p>All Chats</p></b-tab>
             <b-tab title="ArchivedChats" active><p>Archived Chats</p></b-tab>
+            <b-tab title="UnreadChats" @click="goToUnreadChat"><p>Unread Chats</p></b-tab>
         </b-tabs>
         </div>
         <div :key="chat.id" v-for="chat in chats">
@@ -16,7 +17,6 @@
 
 <script>
 import { getAllArchivedChats } from '@/db/messaging/chats'
-import { deleteChat } from '@/db/messaging/chats'
 
 import UserChat from '@/components/UserChat'
 
@@ -34,6 +34,9 @@ export default {
         },
         goToChat(){
             this.$router.push(`/user/${this.$route.params.userId}/chat`)
+        },      
+        goToUnreadChat(){
+            this.$router.push(`/user/${this.$route.params.userId}/unreadchat`)
         },
 
     },
