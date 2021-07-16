@@ -1,4 +1,5 @@
 <template>
+  <div>
     <!-- Archive Or Normal -->
     <b-list-group v-if="pageStat.unread == 0">
       <b-list-group-item button class="d-flex justify-content-between align-items-center" 
@@ -37,6 +38,7 @@
 
         </b-list-group-item>
       </b-list-group>
+    </div>
   </div>
 </template>
 
@@ -69,6 +71,7 @@ export default {
     
   }),
   async mounted() {
+    console.log("Hi")
     if(this.chat.firstParticipantId == this.$route.params.userId){
       this.user = await getUserById(this.chat.secondParticipantId)
     }
@@ -77,7 +80,6 @@ export default {
     }
 
     this.mychatuser = await getUserChat(this.chat.id,this.$route.params.userId)
-      console.log(await this.mychatuser)
 
     if(this.$route.name == "UnreadChat"){
       this.pageStat.unread = 1

@@ -23,9 +23,9 @@ export async function insertUserChat(userChat) {
        `,
         userChat.userId,
         userChat.chatId,
-        0,
-        "NotArchived",
-        "NotRead",
+        userChat.messageUnreadCount,
+        userChat.archiveChatStat,
+        userChat.readChatStat,
     )
 }
 
@@ -57,9 +57,56 @@ export async function getNotReadChats(userId) {
         `
         SELECT * FROM userChats JOIN chats 
         ON userChats.chatId = chats.id 
-        WHERE userId = ? AND readChatStat = ?
+        WHERE userId = ? AND (readChatStat = ? OR messageUnreadCount != 0)
         `,
         userId,
         "NotRead"
+    )
+}
+
+export async function updateReadStat(thischatId, thisuserId, newStat) {
+    return getDb().run(
+        `
+        UPDATE userChats SET readChatStat = ? 
+        WHERE chatId = ? AND userId = ?
+        `,
+        newStat,
+        thischatId,
+        thisuserId
+    )
+}
+
+export async function updateArchiveStat(thischatId, thisuserId, newStat) {
+    return getDb().run(
+        `
+        UPDATE userChats SET archiveChatStat = ? 
+        WHERE chatId = ? AND userId = ?
+        `,
+        newStat,
+        thischatId,
+        thisuserId
+    )
+}
+
+export async function clearUnreadCount(thischatId, thisuserId) {
+    return getDb().run(
+        `
+        UPDATE userChats SET  messageUnreadCount = ? 
+        WHERE chatId = ? AND userId = ?
+        `,
+        0,
+        thischatId,
+        thisuserId
+    )
+}
+
+export async function addUnreadCount(thischatId, thisuserId) {
+    return getDb().run(
+        `
+        UPDATE userChats SET  messageUnreadCount = messageUnreadCount + 1
+        WHERE chatId = ? AND userId != ?
+        `,
+        thischatId,
+        thisuserId
     )
 }

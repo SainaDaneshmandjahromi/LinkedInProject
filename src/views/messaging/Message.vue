@@ -4,8 +4,8 @@
         <chat-option @deleteChat = "deleteThisChat"
                      @UnArchiveChat = "UnArchiveChat"
                      @ArchiveChat = "ArchiveChat"
-                     :unreadStat="unreadStat"
-                     :chat="chat"
+                     @MakeUnread = "MakeUnread"
+                     :mychatuser="mychatuser"
                 />
         </div>
         <div>
@@ -23,9 +23,9 @@
 </template>
 
 <script>
-import { getAllMessages, sendMessage, updateMessagesStat, getUnreadCount  } from '@/db/messaging/messages'
-import { deleteChat,  getChatByChatId, updateArchiveChatStat 
-        ,updateUnreadFirstParticipant, updateUnreadSecondParticipant} from '@/db/messaging/chats'
+import { getAllMessages, sendMessage  } from '@/db/messaging/messages'
+import { deleteChat } from '@/db/messaging/chats'
+import { getUserChat, updateReadStat, updateArchiveStat, clearUnreadCount, addUnreadCount} from '@/db/messaging/userChats'
 
 import MessageChat from '@/components/MessageChat.vue'
 import SendMessage from '@/components/SendMessage.vue'
@@ -41,16 +41,13 @@ export default {
             messageStat:'',
             content: ''
         },
-        chat:{
-            firstParticipantId:'',
-            secondParticipantId:'',
-            unreadStatFirstParticipant:'',
-            unreadStatSecondParticipant:'',
-            archiveStat:''
-        },
-        unreadStat:{
+        mychatuser:{
             id:'',
-            cnt:''
+            userId : '',
+            chatId : '',
+            messageUnreadCount : '',
+            archiveChatStat: '',
+            readChatStat: '',
         }
     }),
     components: {
@@ -61,22 +58,10 @@ export default {
 
     async mounted() {
         this.messages = await getAllMessages(this.$route.params.chatId),
-        this.chat = await getChatByChatId(this.$route.params.chatId),
+        this.mychatuser = await getUserChat(this.$route.params.chatId, this.$route.params.userId),
 
-        await updateMessagesStat(this.$route.params.chatId, this.$route.params.userId, "Read")
-
-        if(this.$route.params.userId == this.chat.firstParticipantId){
-            updateUnreadFirstParticipant(this.$route.params.userId, "Read")
-            console.log("I'm First")
-        }
-        else if(this.$route.params.userId == this.chat.secondParticipantId){
-            updateUnreadSecondParticipant(this.$route.params.userId, "Read")
-            console.log("I'm Second")
-        }
-
-        ///Changed This Check if it works
-        this.unreadStat = await getUnreadCount(this.$route.params.chatId,this.$route.params.userId)
-
+        await updateReadStat(this.$route.params.chatId, this.$route.params.userId, "Read")
+        await clearUnreadCount(this.$route.params.chatId, this.$route.params.userId)
     },
 
     methods:{
@@ -88,7 +73,8 @@ export default {
             this.message.messageStat = "Unread",
 
             sendMessage(this.message),
-
+            
+            addUnreadCount(this.$route.params.chatId, this.$route.params.userId)
             this.messages = await getAllMessages(this.$route.params.chatId)
         },
 
@@ -107,15 +93,21 @@ export default {
         },
 
         UnArchiveChat(){
-            updateArchiveChatStat(this.$route.params.chatId,"NotArchived")
+            updateArchiveStat(this.$route.params.chatId, this.$route.params.userId, "NotArchived")
             this.$router.push(`/user/${this.$route.params.userId}/chat`)
             alert("Chat Removed from Archive");
         },
 
         ArchiveChat(){
-            updateArchiveChatStat(this.$route.params.chatId,"Archived"),
+            updateArchiveStat(this.$route.params.chatId, this.$route.params.userId, "Archived")
             this.$router.push(`/user/${this.$route.params.userId}/archivedchat`)
             alert("Chat Added To Archive");
+        },
+
+        MakeUnread(){
+            updateReadStat(this.$route.params.chatId, this.$route.params.userId, "NotRead")
+            this.$router.push(`/user/${this.$route.params.userId}/unreadchat`)
+            alert("Chat Added To Unread");
         }
     }
 }
