@@ -6,7 +6,7 @@ export async function createPostsTable() {
         CREATE TABLE IF NOT EXISTS posts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             userId INTEGER,
-            sharedPostId INTEGER DEFAULT NULL ,
+            sharedPostId,
             text TEXT NOT NULL,
             media TEXT ,
             date DATE,
@@ -18,37 +18,28 @@ export async function createPostsTable() {
 
 //all for getting list multiple rows
 // get for one row 
-export async function getUserPosts(userId) {
+export async function getUserPosts(user) {
     return getDb().all(`
         SELECT * FROM posts
          WHERE
           userId = ?
     `,
-    userId
+    user.id
     )
 }
 
-export async function getPostById(postId) {
-    return getDb().get(`
-        SELECT * FROM posts
-         WHERE
-          id = ?
-    `,
-    postId
-    )
-}
-export async function getUserPostsAndPostLikes(userId) {
+export async function getUserPostsAndPostLikes(user) {
     return getDb().all(`
         SELECT * FROM posts, post_likes
          WHERE
           posts.userId = ? and posts.id = post_likes.postId
     `,
-    userId
+    user.id
     )
 }
 
 // run is like exec but has param 
-export async function insertPost(userId,post) {
+export async function insertPost(user,post) {
     return getDb().run(
         `
         INSERT INTO posts (text,media,date,userId) values (?,?,?,?)
@@ -56,11 +47,11 @@ export async function insertPost(userId,post) {
         post.text,
         post.media, 
         post.date,
-        userId
+        user.id
     )
 }
 // run is like exec but has param 
-export async function sharePost(userId,post,sharepostid) {
+export async function sharePost(user,post,sharepostid) {
     return getDb().run(
         `
         INSERT INTO posts (text,media,date,userId, sharedPostId) values (?,?,?,?,?)
@@ -69,7 +60,7 @@ export async function sharePost(userId,post,sharepostid) {
         post.text,
         post.media, 
         post.date,
-        userId,
+        user.id,
         sharepostid
     )
 }

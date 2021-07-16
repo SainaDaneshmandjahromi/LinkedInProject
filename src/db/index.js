@@ -20,7 +20,7 @@ import { createMessagesTable } from '@/db/messaging/messages'
 import { createPostsTable } from '@/db/posting/posts'
 import { createCommentsTable } from '@/db/posting/comments'
 import { createPostLikesTable } from '@/db/posting/postLikes'
-import {createCommentLikesTable} from '@/db/posting/commentLikes'
+import {createCommentLikesTable } from '@/db/posting/commnetLikes'
 
 
 sqlite3.verbose()
@@ -68,7 +68,7 @@ export async function createTables() {
     await createPostsTable()
     await createCommentsTable()
     await createPostLikesTable()
-    await createCommentLikesTable()
+    // await createCommentLikesTable()
 
     // messaging tables  //DO NOT CHANGE THE PLACE (or you will die by saina's rage -_-)
     await createChatsTable()
