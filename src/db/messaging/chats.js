@@ -24,6 +24,27 @@ export async function getAllChats(userId) {
     )
 }
 
+export async function getAllArchivedChats(userId) {
+    return getDb().all(
+        `
+        SELECT * FROM chats 
+        WHERE (firstParticipantId = ? OR secondParticipantId = ?) AND (archiveStat = 'Archived')
+        `,
+        userId,
+        userId,
+    )
+}
+
+export async function getChatByChatId(chatId) {
+    return getDb().get(
+        `
+        SELECT * FROM chats 
+        WHERE id = ? 
+        `,
+        chatId
+    )
+}
+
 export async function insertChat(chat) {
     return getDb().run(
         `
