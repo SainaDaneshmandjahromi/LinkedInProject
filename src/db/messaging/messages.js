@@ -6,6 +6,7 @@ export async function createMessagesTable() {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             userId INTEGER NOT NULL,
             chatId INTEGER NOT NULL,
+            messageStat TEXT NOT NULL,
             content TEXT NOT NULL,  
             date NTEXT,
             FOREIGN KEY (userId) REFERENCES users (id)
@@ -27,12 +28,13 @@ export async function getAllMessages(chatId) {
 export async function sendMessage(message) {
     return getDb().run(
         `
-        INSERT INTO messages (userId, chatId, content, date) values (?, ?, ?, ?)
+        INSERT INTO messages (userId, chatId, content, date) values (?, ?, ?, ?, ?)
        `,
         message.userId,
         message.chatId,
         message.content,
-        message.date
+        message.date,
+        "Unread"
     )
 }
 
