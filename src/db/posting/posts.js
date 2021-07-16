@@ -6,7 +6,7 @@ export async function createPostsTable() {
         CREATE TABLE IF NOT EXISTS posts (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             userId INTEGER,
-            sharedPostId,
+            sharedPostId INTEGER DEFAULT NULL ,
             text TEXT NOT NULL,
             media TEXT ,
             date DATE,
@@ -18,28 +18,37 @@ export async function createPostsTable() {
 
 //all for getting list multiple rows
 // get for one row 
-export async function getUserPosts(user) {
+export async function getUserPosts(userId) {
     return getDb().all(`
         SELECT * FROM posts
          WHERE
           userId = ?
     `,
-    user.id
+    userId
     )
 }
 
-export async function getUserPostsAndPostLikes(user) {
+export async function getPostById(postId) {
+    return getDb().get(`
+        SELECT * FROM posts
+         WHERE
+          id = ?
+    `,
+    postId
+    )
+}
+export async function getUserPostsAndPostLikes(userId) {
     return getDb().all(`
         SELECT * FROM posts, post_likes
          WHERE
           posts.userId = ? and posts.id = post_likes.postId
     `,
-    user.id
+    userId
     )
 }
 
 // run is like exec but has param 
-export async function insertPost(user,post) {
+export async function insertPost(userId,post) {
     return getDb().run(
         `
         INSERT INTO posts (text,media,date,userId) values (?,?,?,?)
@@ -47,11 +56,11 @@ export async function insertPost(user,post) {
         post.text,
         post.media, 
         post.date,
-        user.id
+        userId
     )
 }
 // run is like exec but has param 
-export async function sharePost(user,post,sharepostid) {
+export async function sharePost(userId,post,sharepostid) {
     return getDb().run(
         `
         INSERT INTO posts (text,media,date,userId, sharedPostId) values (?,?,?,?,?)
@@ -60,7 +69,7 @@ export async function sharePost(user,post,sharepostid) {
         post.text,
         post.media, 
         post.date,
-        user.id,
+        userId,
         sharepostid
     )
 }
