@@ -1,6 +1,9 @@
 <template>
     <div>
         <div>
+            <search-message />
+        </div>
+        <div>
         <chat-option @deleteChat = "deleteThisChat"
                      @UnArchiveChat = "UnArchiveChat"
                      @ArchiveChat = "ArchiveChat"
@@ -30,6 +33,7 @@ import { getUserChat, updateReadStat, updateArchiveStat, clearUnreadCount, addUn
 import MessageChat from '@/components/MessageChat.vue'
 import SendMessage from '@/components/SendMessage.vue'
 import ChatOption from '@/components/ChatOption.vue'
+import SearchMessage from '@/components/SearchMessage.vue'
 
 export default {
     name: 'Message',
@@ -53,7 +57,8 @@ export default {
     components: {
         MessageChat,
         SendMessage,
-        ChatOption
+        ChatOption,
+        SearchMessage
     },
 
     async mounted() {
