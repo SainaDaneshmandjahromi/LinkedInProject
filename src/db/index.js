@@ -64,7 +64,7 @@ export async function createTables() {
     await createInvitationsTable()
     await createConnectionsTable()
 
-    // posting tables
+    // posting tables 
     await createPostsTable()
     await createCommentsTable()
     await createPostLikesTable()
