@@ -20,7 +20,6 @@ import { getAllChats } from '@/db/messaging/chats'
 import UserChat from '@/components/UserChat'
 export default {
     name: 'Chat',
-    ////Changed HERE
     data: () => ({
         chats:[],
     }),

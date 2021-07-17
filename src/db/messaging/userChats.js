@@ -40,6 +40,17 @@ export async function getUserChat(chatId, userId) {
     )
 }
 
+export async function getAllChats(userId) {
+    return getDb().all(
+        `
+        SELECT * FROM userChats JOIN chats 
+        ON userChats.chatId = chats.id 
+        WHERE userId = ?
+        `,
+        userId,
+    )
+}
+
 export async function getArchivedChats(userId) {
     return getDb().all(
         `
@@ -99,6 +110,17 @@ export async function clearUnreadCount(thischatId, thisuserId) {
         thisuserId
     )
 }
+
+export async function deleteUserChats(chatId) {
+    return getDb().all(
+        `
+        DELETE FROM userChats
+        WHERE chatId = ?
+        `,
+         chatId
+    )
+}
+
 
 export async function addUnreadCount(thischatId, thisuserId) {
     return getDb().run(

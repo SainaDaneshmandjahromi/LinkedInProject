@@ -34,6 +34,19 @@ export default [
         name: 'UnreadMessage',
         component: Message,
     },
-    
-
+    {
+        path: 'chat/:chatId/search',
+        name: 'ChatSearch',
+        component: Message,
+    },
+    {
+        path: 'archivedchat/:chatId/search',
+        name: 'ArchivedSearch',
+        component: Message,
+    },
+    {
+        path: 'unreadchat/:chatId/search',
+        name: 'UnreadSearch',
+        component: Message,
+    },
 ]

@@ -80,6 +80,7 @@ export default {
     }
 
     this.mychatuser = await getUserChat(this.chat.id,this.$route.params.userId)
+    console.log(this.chat.id)
 
     if(this.$route.name == "UnreadChat"){
       this.pageStat.unread = 1
