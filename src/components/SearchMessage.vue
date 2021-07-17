@@ -24,7 +24,6 @@ export default {
           text : ''
       }
     })
-    ////Changed HERE
 
 }
 </script>
