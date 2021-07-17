@@ -20,10 +20,11 @@
 import UserConnection from '@/components/UserConnection'
 import { getAllConnections } from '@/db/user/connections'
 
+
 export default {
     name: 'Connection',
        data: () => ({
-           connections: []
+           connections: [],
     }),
     components: {
         UserConnection
@@ -41,7 +42,7 @@ export default {
         GoToProfile(userId){
             ///TODOOOOOOOOO
             ///MOHSEN WILL PUT GOING TO PUBLIC PROFILE HERE
-        },
+        }
     },
     async mounted() {
         this.connections = await getAllConnections(this.$route.params.userId)

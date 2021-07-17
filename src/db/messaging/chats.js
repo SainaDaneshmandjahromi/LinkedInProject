@@ -24,16 +24,32 @@ export async function getAllChats(userId) {
     )
 }
 
-// export async function getAllArchivedChats(userId) {
-//     return getDb().all(
-//         `
-//         SELECT * FROM chats 
-//         WHERE (firstParticipantId = ? OR secondParticipantId = ?) AND (archiveStat = 'Archived')
-//         `,
-//         userId,
-//         userId,
-//     )
-// }
+
+export async function getChatId(userOneId,userSecondId) {
+    return getDb().get(
+        `
+        SELECT id FROM chats 
+        WHERE (firstParticipantId = ? AND secondParticipantId = ?)
+        `,
+        userOneId,
+        userSecondId,
+    )
+}
+
+export async function checkChatExists(userOneId,userSecondId) {
+    return getDb().get(
+        `
+        SELECT id,count(id) as cnt FROM chats 
+        WHERE (firstParticipantId = ? AND secondParticipantId = ?)
+        OR
+        (secondParticipantId = ? AND firstParticipantId = ?)
+        `,
+        userOneId,
+        userSecondId,
+        userOneId,
+        userSecondId,
+    )
+}
 
 
 
