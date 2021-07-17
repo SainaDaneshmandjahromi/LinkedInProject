@@ -6,15 +6,27 @@
             <b-tab title="Received Invitations" @click= "GoToReceivedInvitation"><p>Received Invitations</p></b-tab>
             <b-tab title="Sent Invitations" @click="GoToSentInvitation"><p>Received Invitations</p></b-tab>
         </b-tabs>
+
+        <div :key="connection.id" v-for="connection in connections">
+            <user-connection
+            @GoToProfile = "GoToProfile"
+            :connection="connection"/>
+        </div>
 </div>
 </template>
 
 <script>
+
+import UserConnection from '@/components/UserConnection'
+import { getAllConnections } from '@/db/user/connections'
+
 export default {
     name: 'Connection',
        data: () => ({
+           connections: []
     }),
     components: {
+        UserConnection
     },
     methods:{
         GoToPeopleYouMayKnow(){
@@ -25,9 +37,14 @@ export default {
         },
         GoToSentInvitation(){
             this.$router.push(`/user/${this.$route.params.userId}/sentinvitation`)
-        }
+        },
+        GoToProfile(userId){
+            ///TODOOOOOOOOO
+            ///MOHSEN WILL PUT GOING TO PUBLIC PROFILE HERE
+        },
     },
     async mounted() {
+        this.connections = await getAllConnections(this.$route.params.userId)
     }
 }
 </script>

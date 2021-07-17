@@ -48,9 +48,9 @@ export async function getAllConnections(userId) {
 }
 
 export async function getMutualConnectionsCount(userOneId,userTwoId) {
-    return getDb().all(
+    return getDb().get(
         `
-        SELECT count(distinct connectedId) FROM (SELECT connectedOneId as connectedId FROM connections 
+        SELECT count(distinct connectedId) as cnt FROM (SELECT connectedOneId as connectedId FROM connections 
         WHERE connectedTwoId = ? 
         UNION
         SELECT connectedTwoId as connectedId FROM connections 
