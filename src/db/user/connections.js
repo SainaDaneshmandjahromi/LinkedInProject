@@ -14,6 +14,7 @@ export async function createConnectionsTable() {
     `)
 }
 
+
 export async function newConnection(connection) {
     return getDb().run(
         `
@@ -41,6 +42,71 @@ export async function getAllConnections(userId) {
         SELECT * FROM connections 
         WHERE connectedOneId = ? OR connectedTwoId = ?
         `,
+        userId,
+        userId
+    )
+}
+
+export async function getMutualConnectionsCount(userOneId,userTwoId) {
+    return getDb().all(
+        `
+        SELECT count(distinct connectedId) FROM (SELECT connectedOneId as connectedId FROM connections 
+        WHERE connectedTwoId = ? 
+        UNION
+        SELECT connectedTwoId as connectedId FROM connections 
+        WHERE connectedOneId = ?) 
+        WHERE connectedId IN (SELECT connectedOneId as connectedId FROM connections 
+            WHERE connectedTwoId = ? 
+            UNION
+            SELECT connectedTwoId as connectedId FROM connections 
+            WHERE connectedOneId = ?)
+        `,
+        userOneId,
+        userOneId,
+        userTwoId,
+        userTwoId
+    )
+}
+
+export async function getAllPeopleYouMayKnow(userId) {
+    return getDb().all(
+        ` 
+        SELECT distinct connectedTwoId as connectedId FROM connections WHERE connectedOneId IN (
+            SELECT connectedOneId as connectedId FROM connections 
+            WHERE connectedTwoId = ? 
+            UNION
+            SELECT connectedTwoId as connectedId FROM connections 
+            WHERE connectedOneId = ?) AND connectedTwoId NOT IN(
+            SELECT connectedOneId FROM connections WHERE 
+            connectedTwoId = ?
+            UNION
+            SELECT connectedTwoId as connectedId FROM connections 
+            WHERE connectedOneId = ?
+            ) AND connectedTwoId != ?
+        UNION
+        SELECT distinct connectedOneId as connectedId FROM connections WHERE connectedTwoId IN (
+            SELECT connectedOneId as connectedId FROM connections 
+            WHERE connectedTwoId = ? 
+            UNION
+            SELECT connectedTwoId as connectedId FROM connections 
+            WHERE connectedOneId = ?) AND connectedOneId NOT IN(
+            SELECT connectedOneId FROM connections WHERE 
+            connectedTwoId = ?
+            UNION
+            SELECT connectedTwoId as connectedId FROM connections 
+            WHERE connectedOneId = ?
+            ) AND connectedOneId != ?
+             
+
+        `,
+        userId,
+        userId,
+        userId,
+        userId,
+        userId,
+        userId,
+        userId,
+        userId,
         userId,
         userId
     )

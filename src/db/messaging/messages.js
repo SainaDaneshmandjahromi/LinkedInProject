@@ -59,15 +59,3 @@ export async function updateMessagesStat(thischatId, thisuserId, newStat) {
 }
 
 
-// export async function getUnreadCount(chatId, userId) {
-//     return getDb().get( `
-//     SELECT 
-//     chats.id as id, count(distinct messages.id) as cnt FROM messages
-//     JOIN chats ON chats.id = messages.chatId 
-//     WHERE 
-//     messages.messageStat = "Unread" AND chats.id = ? AND messages.userId != ?
-//     `,
-//     chatId,
-//     userId
-//     )
-// }

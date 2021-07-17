@@ -42,7 +42,10 @@ export default {
     methods:{
     },
     async mounted() {
+        if(this.statusInvitation.ReceivedStat==1)
         this.user = await getUserById(this.invitation.invitorId)
+        else if(this.statusInvitation.ReceivedStat==0)
+        this.user = await getUserById(this.invitation.invitedId)
         console.log("Hello")
     }
 }
