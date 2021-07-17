@@ -17,11 +17,13 @@
 </template>
 
 <script>
+
 import { getUserById } from '@/db/user/users'
 import { getMutualConnectionsCount } from '@/db/user/connections'
 
 export default {
-    name: 'user-connection',
+    
+    name: 'user-people-you-may-know',
     data: () => ({
         user:{
             id:'',
@@ -33,22 +35,15 @@ export default {
         }
     }),
     props:{
-        connection:Object,
-    },
-    components: {
+        mayKnow:Object,
     },
     methods:{
     },
     async mounted() {
-        if(this.connection.connectedOneId==this.$route.params.userId){
-            this.user = await getUserById(this.connection.connectedTwoId)
-        }
-        else{
-            this.user = await getUserById(this.connection.connectedOneId)
-        }
+        this.user = await getUserById(this.mayKnow.connectedId)
 
-        this.mutualConnection = await getMutualConnectionsCount(this.connection.connectedTwoId ,
-            this.connection.connectedOneId)
+        this.mutualConnection = await getMutualConnectionsCount(this.$route.params.userId ,
+            this.mayKnow.connectedId)
 
     }
 }

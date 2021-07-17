@@ -7,7 +7,7 @@
 
 
             <b-card-text>{{ user.about }}</b-card-text>
-            <b-link button class="card-link" @click="$emit('GoToProfile', invitation.invitorId)">Go To Profile</b-link>
+            <b-link button class="card-link" @click="$emit('GoToProfile', user.id)">Go To Profile</b-link>
 
             <b-link button class="card-link"
             v-if="statusInvitation.ReceivedStat==1"
