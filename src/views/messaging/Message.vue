@@ -66,18 +66,9 @@ export default {
     },
 
     async mounted() {
-        if(this.$route.name ==  "ArchivedMessage" || this.$route.name ==  "UnreadMessage" 
-        || this.$route.name == "Message"){
 
         this.messages = await getAllMessages(this.$route.params.chatId)
 
-        }
-        else{
-            //console.log("BYYYYYYYYYYYYEEEEEEEEEEEEE")
-            await console.log(this.searchContent.text)
-            //this.messages = await getSearchedMessages(this.$route.params.chatId, this.searchContent.text)
-
-        }
         this.mychatuser = await getUserChat(this.$route.params.chatId, this.$route.params.userId),
 
         await updateReadStat(this.$route.params.chatId, this.$route.params.userId, "Read")
@@ -98,17 +89,13 @@ export default {
             this.messages = await getAllMessages(this.$route.params.chatId)
         },
 
-        searchMyMessage(text){
-            console.log(text)
-
+        async searchMyMessage(text){
+            
             this.searchContent.text = text
-            console.log(this.searchContent.text)
-            console.log("HIIIIIIIIIIIII")
-            this.$router.push(`/user/${this.$route.params.userId}/archivedchat/${this.$route.params.chatId}/search`)
+            this.messages = await getSearchedMessages(this.$route.params.chatId, text)
+            console.log(this.messages)
 
         },
-
-
         deleteThisChat(){
             deleteChat(this.$route.params.chatId)
 

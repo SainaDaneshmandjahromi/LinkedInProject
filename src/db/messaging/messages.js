@@ -27,7 +27,7 @@ export async function getAllMessages(chatId) {
 
 export async function getSearchedMessages(chatId,content) {
     return getDb().all(`
-        SELECT * FROM messages WHERE messages.chatId = ? AND messages.content LIKE  '%content%'
+        SELECT * FROM messages WHERE messages.chatId = ? AND messages.content LIKE  '%${content}%'
     `,
     chatId
     )
