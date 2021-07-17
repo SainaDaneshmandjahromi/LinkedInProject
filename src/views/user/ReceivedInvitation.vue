@@ -14,7 +14,8 @@
             @GoToProfile = "GoToProfile"
             @AcceptInvitation = "AcceptInvitation"
             @RejectInvitation = "RejectInvitation"
-            :invitation="invitation" />
+            :invitation="invitation" 
+            :statusInvitation="statusInvitation"/>
         </div>
         </div>
         
@@ -36,6 +37,9 @@ export default {
         connection:{
             connectedOneId:'',
             connectedTwoId:''
+        },
+        statusInvitation:{
+            ReceivedStat:''
         }
     }),
     components: {
@@ -76,9 +80,8 @@ export default {
 
     },
     async mounted() {
-        console.log("Connection")
         this.invitations = await getAllReceivedInvitations(this.$route.params.userId)
-        console.log(this.invitations)
+        this.statusInvitation.ReceivedStat = 1
     }
 }
 </script>
