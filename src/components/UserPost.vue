@@ -1,6 +1,6 @@
 <template>
 <div>
-  <b-card :title= this.user.username>
+  <b-card :title= this.user.username :sub-title="this.post.date">
       <b-card-text>{{this.post.text}}</b-card-text>
         
         <div v-if="this.hasShared">
@@ -31,7 +31,6 @@ export default {
   name: 'user-post',
   props: {
     post: Object,
-    sharedpost: Object,
 
   },
    data: () => ({
@@ -41,11 +40,13 @@ export default {
         },
       likeCount :'',
       cmCount:'',
-      hasShared:false
+      hasShared:false,
+      sharedpost: '',
+
     }),
     async created() {
-        this.user  = await getUserById(this.$route.params.userId)
-        
+        this.user  = await getUserById(this.post.userId)
+        console.log(this.user)
         if (this.post.sharedPostId !== null ){
           
           this.sharedpost = await getPostById(this.post.sharedPostId)

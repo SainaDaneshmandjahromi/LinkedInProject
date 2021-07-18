@@ -11,7 +11,7 @@
     <b-button
       :to="`/user/${this.$route.params.userId}/myposts`"
       variant="danger"
-    >my posts</b-button>
+    >My Feed</b-button>
   </section>
 </template>
 

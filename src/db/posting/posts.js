@@ -28,6 +28,51 @@ export async function getUserPosts(userId) {
     )
 }
 
+export async function getFeedPosts(userId) {
+    return getDb().all(`
+    SELECT * From posts
+     where
+        (id In  
+            (SELECT id FROM posts 
+                where
+                    posts.userId in 
+                        (SELECT connectedOneId from connections
+                            where connectedTwoId = ?) or
+                    posts.userId in 
+                    (SELECT connectedTwoId from connections
+                            where connectedOneId = ?)
+                )
+            )  or
+        
+        ( id In (
+        SELECT post_likes.postId FROM post_likes, connections
+            WHERE(
+            (connectedOneId = ? and connectedTwoId = post_likes.userId)
+            or
+            (connectedTwoId = ? and connectedOneId  = post_likes.userId)
+            )
+        )
+        ) or 
+        (id In (
+        SELECT comments.postId from comments,connections
+        WHERE (
+            (connectedOneId = ? and connectedTwoId = comments.userId)
+            or
+            (connectedTwoId = ? and connectedOneId  = comments.userId)
+            )
+        )
+        )
+    `,
+    userId,
+    userId,
+    userId,
+    userId,
+    userId,
+    userId
+    )
+}
+
+
 export async function getPostById(postId) {
     return getDb().get(`
         SELECT * FROM posts

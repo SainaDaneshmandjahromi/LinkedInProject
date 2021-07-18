@@ -26,8 +26,8 @@ export async function insertComment(userId,postId,comment) {
         
         comment.text,
         comment.date, 
-        postId,
-        userId
+        userId,
+        postId
     )
 }
 
@@ -40,8 +40,8 @@ export async function insertReply(userId,postId,commentId,reply) {
         
         reply.text,
         reply.date, 
-        postId,
         userId,
+        postId,
         commentId,
         
     )

@@ -1,7 +1,7 @@
   
 <template>
 <div>
-  <div :key="post.id" v-for="post in posts">
+  <div :key="post.id" v-for="post in posts.slice().reverse()">
     <user-post
       :post="post"
     />
@@ -12,8 +12,8 @@
 
 <script>
 import UserPost from '../../components/UserPost.vue'
-import {getUserPosts} from '@/db/posting/posts'
-import { getPostComments} from '@/db/posting/comments'
+import {getFeedPosts} from '@/db/posting/posts'
+// import { getPostComments} from '@/db/posting/comments'
 import{getUserById} from '@/db/user/users'
 export default {
   name: 'posts',
@@ -22,10 +22,9 @@ export default {
       id: '',
       username: '',
     },
+    posts: []
   }),
-  props: {
-    posts: Array,
-  },
+ 
   components: {
     UserPost
   }, 
@@ -33,7 +32,9 @@ export default {
 
         console.log(this.$route.params.userId)
         this.user  = await getUserById(this.$route.params.userId)
-        this.posts = await getUserPosts(this.$route.params.userId)
+        this.posts = await getFeedPosts(this.$route.params.userId)
+        // alert("user posts")
+        console.log(this.posts)
     }
 }
 </script>

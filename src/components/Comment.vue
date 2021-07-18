@@ -1,12 +1,11 @@
 <template>
 <div>
-<b-card >
-    
-    <h4>{{this.user.username}}</h4>
+<b-card :title="this.user.username" :sub-title="this.comment.date">
     <b-card-text>{{this.comment.text}}</b-card-text>
     <b-link  class="card-link"  @click="showReply">Reply</b-link>
     <b-link  class="card-link"  @click="commentLike">Like {{this.commentLikesCount}}</b-link>
     <div v-show="showinput">
+        <br>
         <b-form-textarea
             id="textarea"
             v-model="myreply.text"
@@ -21,11 +20,13 @@
         <br>
     </div>
     <div v-show="show" >
+
         <div :key="reply.id" v-for="reply in this.replies">
                 <comment
                 :comment="reply"
                 />
         <br>
+
         </div>
     </div>
     
@@ -36,7 +37,7 @@
 <script>
 import{getUserById} from '@/db/user/users'
 import {getCommentReplies, insertReply} from'@/db/posting/comments'
-// import{like_post,  getPostLikesCount,getPostLikes} from '@/db/posting/postLikes'
+import moment from 'moment'
 import {getCommentLikes, like_comment} from '@/db/posting/commentLikes' 
 export default {
   name: 'comment',
@@ -50,6 +51,7 @@ export default {
         username: '',
         },
     myreply: {
+        userId:'',
         text: '',
         date:null
         },
@@ -58,14 +60,14 @@ export default {
     commentLikesCount : '',
     }),
     async created() {
-        
         this.user  = await getUserById(this.comment.userId)
         var cml = await getCommentLikes(this.comment.id)
         this.commentLikesCount = cml.length
         },
     methods:{
         async showReply(event){
-            this.replies = await   getCommentReplies(this.comment.id)
+            this.replies = await  getCommentReplies(this.comment.id)
+            console.log(this.replies)
             if(this.replies.length){
                 console.log("replies",this.replies[0].userId)
                 this.show = !this.show
@@ -76,6 +78,8 @@ export default {
         async sendReply(event){
             const userId = this.$route.params.userId
             const postId = this.$route.params.postId
+            this.myreply.userId = this.userId
+            this.myreply.date =  await  moment().format('MMMM Do YYYY, h:mm:ss a')
             await  insertReply(userId,postId,this.comment.id,this.myreply)
             this.myreply.text=''
             console.log(this.replies)

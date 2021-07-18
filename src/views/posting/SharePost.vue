@@ -10,18 +10,19 @@
                 rows="3"
                 max-rows="6"
                 ></b-form-textarea>
-                <br>
+                        <br>
+        <b-card :title= this.user.username :sub-title="this.post.date">
+
+            <b-card-text>{{this.post.text}}</b-card-text>
+
+        </b-card>
+         <br>
                <b-col>
                     <b-button @click="onClick" variant="outline-primary">Share</b-button>
                 </b-col>
             </b-form>
         </b-col>
-        <br>
-        <b-card :title= this.user.username>
 
-            <b-card-text>{{this.post.text}}</b-card-text>
-
-        </b-card>
     </b-card>
 </div>
 </template>

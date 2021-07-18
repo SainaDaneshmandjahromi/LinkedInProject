@@ -1,8 +1,7 @@
 <template>
 
     <div>
-        <b-card :title= this.user.username>
-
+        <b-card :title= this.user.username  :sub-title="this.post.date">
             <b-card-text>{{post.text}}</b-card-text>
             <b-form-textarea
                 id="textarea"
@@ -16,7 +15,7 @@
           <b-button @click="onClick" variant="outline-primary">Send</b-button>
         </b-col>
         <br>
-            <div :key="comment.id" v-for="comment in comments">
+            <div :key="comment.id" v-for="comment in comments.slice().reverse()">
             <comment
             :comment="comment"
             />
@@ -32,6 +31,7 @@ import {getPostById} from '@/db/posting/posts'
 import{getUserById} from '@/db/user/users'
 import {getPostComments, insertComment} from '@/db/posting/comments'
 import Comment from '../../components/Comment.vue'
+import moment from 'moment'
 export default {
   name: 'expandpost',
   data: () => ({
@@ -47,24 +47,23 @@ export default {
     comment:{
         text:'',
         date: null
-    }
+    },
+    comments: Array
   }),
-  props: {
-    comments: Array,
-  },
   components: {
     Comment
   }, 
   async created() {
-        this.post = await getPostById(this.$route.params.userId)
+        this.post = await getPostById(this.$route.params.postId)
         this.user  = await getUserById(this.$route.params.userId)
         this.comments = await getPostComments(this.$route.params.postId)
     },
     methods: {
       async onClick(event) {
           
-        const userId = this.$route.params.userId
-        const postId = this.$route.params.postId
+        var userId = this.$route.params.userId
+        var postId = this.$route.params.postId
+        this.comment.date = await  moment().format('MMMM Do YYYY, h:mm:ss a')
         await insertComment(userId,postId,this.comment)
         
         this.comments = await getPostComments(this.$route.params.postId)
