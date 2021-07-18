@@ -13,23 +13,35 @@ export async function createPostLikesTable() {
     `)
 }
 
-export async function getPostLikes(post) {
+export async function getPostLikes(postId) {
     return getDb().all( `
         SELECT * FROM post_likes
         WHERE
         post_likes.postId = ?
         `,
-        post.id
+        postId
     )
 }
 
 
-export async function like_post(user,post) {
+export async function getPostLikesCount(postId) {
+    return getDb().get( `
+    SELECT 
+    count(distinct id) as cnt from post_likes
+     WHERE 
+     post_likes.postId = ?
+    `,
+    postId
+    )
+}
+
+
+export async function like_post(userId,postId) {
     return getDb().run(
         `
         INSERT INTO post_likes (postId,userId) values (?, ?)
        `,
-        post.id,
-        user.id
+        postId,
+        userId
     )
 }

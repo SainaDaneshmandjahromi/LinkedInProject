@@ -8,6 +8,10 @@
       :to="`/user/${this.$route.params.userId}/newpost`"
       variant="danger"
     >Create New Post</b-button>
+    <b-button
+      :to="`/user/${this.$route.params.userId}/myposts`"
+      variant="danger"
+    >My Feed</b-button>
   </section>
 </template>
 

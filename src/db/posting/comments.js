@@ -18,7 +18,7 @@ export async function createCommentsTable() {
 }
 
 
-export async function insertComment(user,post,comment) {
+export async function insertComment(userId,postId,comment) {
     return getDb().run(
         `
         INSERT INTO comments (text,date,userId,postId) values (?, ?, ?, ?)
@@ -26,26 +26,43 @@ export async function insertComment(user,post,comment) {
         
         comment.text,
         comment.date, 
-        post.id,
-        user.id
+        userId,
+        postId
     )
 }
 
+
+export async function insertReply(userId,postId,commentId,reply) {
+    return getDb().run(
+        `
+        INSERT INTO comments (text,date,userId,postId,repliedCommentId) values (?, ?, ?, ?, ?)
+       `,
+        
+        reply.text,
+        reply.date, 
+        userId,
+        postId,
+        commentId,
+        
+    )
+}
+
+
 //get post comments and likes of each comment
-export async function getPostComments(post) {
+export async function getPostComments(postId) {
     return getDb().all(`
         SELECT * FROM comments
         WHERE
-        postId =?
+        postId =? and repliedCommentId is NULL
     `, 
-    post.id)
+    postId)
 }
 //get one comment replies and likes of each reply
-export async function getCommentReplies(comment) {
+export async function getCommentReplies(commentId) {
     return getDb().all(`
-        SELECT * FROM comments, comment_likes
+        SELECT * FROM comments
         WHERE
-        repliedCommentId = ? and comments.id = comment_likes.commentId
+        repliedCommentId = ? 
     `,
-    comment.id)
+    commentId)
 }
