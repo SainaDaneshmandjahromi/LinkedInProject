@@ -1,6 +1,6 @@
 <template>
   <section>
-    <b-card class="mx-5">
+    <b-card class="mx-5 mt-3">
 
       <label>Username:</label>
       <b-form-input
