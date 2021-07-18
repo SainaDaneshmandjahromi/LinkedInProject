@@ -16,7 +16,7 @@ export async function createMessagesTable() {
 }
 
 
-////Not checked
+
 export async function getAllMessages(chatId) {
     return getDb().all(`
         SELECT * FROM messages WHERE messages.chatId = ?
@@ -25,16 +25,37 @@ export async function getAllMessages(chatId) {
     )
 }
 
+export async function getSearchedMessages(chatId,content) {
+    return getDb().all(`
+        SELECT * FROM messages WHERE messages.chatId = ? AND messages.content LIKE  '%${content}%'
+    `,
+    chatId
+    )
+}
+
 export async function sendMessage(message) {
     return getDb().run(
         `
-        INSERT INTO messages (userId, chatId, content, date) values (?, ?, ?, ?, ?)
+        INSERT INTO messages (userId, chatId, content, date,  messageStat) values (?, ?, ?, ?, ?)
        `,
         message.userId,
         message.chatId,
         message.content,
         message.date,
-        "Unread"
+        message.messageStat
     )
 }
+
+export async function updateMessagesStat(thischatId, thisuserId, newStat) {
+    return getDb().all(
+        `
+        UPDATE messages SET messageStat = ? 
+        WHERE chatId = ? AND userId != ?
+        `,
+        newStat,
+        thischatId,
+        thisuserId
+    )
+}
+
 

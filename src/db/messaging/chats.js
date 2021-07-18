@@ -5,8 +5,8 @@ export async function createChatsTable() {
         CREATE TABLE IF NOT EXISTS chats (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             firstParticipantId INTEGER NOT NULL,
-            secondParticipantId INTEGER NOT NULL,
-            archiveStat TEXT NOT NULL,
+            secondParticipantId INTEGER NOT NULL, 
+            date TEXT,      
             FOREIGN KEY (firstParticipantId) REFERENCES users (id),
             FOREIGN KEY (secondParticipantId) REFERENCES users (id)
         )
@@ -24,16 +24,34 @@ export async function getAllChats(userId) {
     )
 }
 
-export async function getAllArchivedChats(userId) {
-    return getDb().all(
+
+export async function getChatId(userOneId,userSecondId) {
+    return getDb().get(
         `
-        SELECT * FROM chats 
-        WHERE (firstParticipantId = ? OR secondParticipantId = ?) AND (archiveStat = 'Archived')
+        SELECT id FROM chats 
+        WHERE (firstParticipantId = ? AND secondParticipantId = ?)
         `,
-        userId,
-        userId,
+        userOneId,
+        userSecondId,
     )
 }
+
+export async function checkChatExists(userOneId,userSecondId) {
+    return getDb().get(
+        `
+        SELECT id,count(id) as cnt FROM chats 
+        WHERE (firstParticipantId = ? AND secondParticipantId = ?)
+        OR
+        (secondParticipantId = ? AND firstParticipantId = ?)
+        `,
+        userOneId,
+        userSecondId,
+        userOneId,
+        userSecondId,
+    )
+}
+
+
 
 export async function getChatByChatId(chatId) {
     return getDb().get(
@@ -48,11 +66,10 @@ export async function getChatByChatId(chatId) {
 export async function insertChat(chat) {
     return getDb().run(
         `
-        INSERT INTO chats (firstParticipantId, secondParticipantId, archiveStat) values (?, ?, ?)
+        INSERT INTO chats (firstParticipantId, secondParticipantId) values (?, ?)
        `,
         chat.firstParticipantId,
         chat.secondParticipantId,
-        chat.archiveStat
     )
 }
 
@@ -66,16 +83,6 @@ export async function deleteChat(chatId) {
     )
 }
 
-export async function updateArchiveChatStat(chatId,newStat) {
-    return getDb().all(
-        `
-        UPDATE chats SET archiveStat = ? 
-        WHERE id = ?
-        `,
-        newStat,
-        chatId
-    )
-}
 
 
 

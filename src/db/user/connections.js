@@ -14,6 +14,7 @@ export async function createConnectionsTable() {
     `)
 }
 
+
 export async function newConnection(connection) {
     return getDb().run(
         `
@@ -43,5 +44,115 @@ export async function getAllConnections(userId) {
         `,
         userId,
         userId
+    )
+}
+
+export async function getMutualConnectionsCount(userOneId,userTwoId) {
+    return getDb().get(
+        `
+        SELECT count(distinct connectedId) as cnt FROM (SELECT connectedOneId as connectedId FROM connections 
+        WHERE connectedTwoId = ? 
+        UNION
+        SELECT connectedTwoId as connectedId FROM connections 
+        WHERE connectedOneId = ?) 
+        WHERE connectedId IN (SELECT connectedOneId as connectedId FROM connections 
+            WHERE connectedTwoId = ? 
+            UNION
+            SELECT connectedTwoId as connectedId FROM connections 
+            WHERE connectedOneId = ?)
+        `,
+        userOneId,
+        userOneId,
+        userTwoId,
+        userTwoId
+    )
+}
+
+export async function getAllPeopleYouMayKnow(userId) {
+    return getDb().all(
+        ` 
+        SELECT distinct connectedTwoId as connectedId FROM connections WHERE connectedOneId IN (
+            SELECT connectedOneId as connectedId FROM connections 
+            WHERE connectedTwoId = ? 
+            UNION
+            SELECT connectedTwoId as connectedId FROM connections 
+            WHERE connectedOneId = ?) AND connectedTwoId NOT IN(
+            SELECT connectedOneId FROM connections WHERE 
+            connectedTwoId = ?
+            UNION
+            SELECT connectedTwoId as connectedId FROM connections 
+            WHERE connectedOneId = ?
+            ) AND connectedTwoId != ?
+        UNION
+        SELECT distinct connectedOneId as connectedId FROM connections WHERE connectedTwoId IN (
+            SELECT connectedOneId as connectedId FROM connections 
+            WHERE connectedTwoId = ? 
+            UNION
+            SELECT connectedTwoId as connectedId FROM connections 
+            WHERE connectedOneId = ?) AND connectedOneId NOT IN(
+            SELECT connectedOneId FROM connections WHERE 
+            connectedTwoId = ?
+            UNION
+            SELECT connectedTwoId as connectedId FROM connections 
+            WHERE connectedOneId = ?
+            ) AND connectedOneId != ?
+             
+
+        `,
+        userId,
+        userId,
+        userId,
+        userId,
+        userId,
+        userId,
+        userId,
+        userId,
+        userId,
+        userId
+    )
+}
+
+export async function checkConnectionExists(userOneId,userSecondId) {
+    return getDb().get(
+        `
+        SELECT id,count(id) as cnt FROM connections 
+        WHERE (connectedOneId = ? AND connectedTwoId = ?)
+        OR
+        (connectedTwoId = ? AND connectedOneId = ?)
+        `,
+        userOneId,
+        userSecondId,
+        userOneId,
+        userSecondId,
+    )
+}
+
+export async function userConnection(userOneId) {
+    return getDb().all(
+        `
+        SELECT * FROM connections JOIN users 
+        WHERE (connectedOneId = ? AND connectedTwoId = users.id) 
+        OR 
+        (connectedTwoId = ? AND connectedOneId = users.id)
+        `,
+        userOneId,
+        userOneId
+
+    )
+}
+
+export async function searchUserConnection(userOneId,subname) {
+    return getDb().all(
+        `
+        SELECT * FROM(
+        SELECT users.Id, users.username FROM connections JOIN users 
+        WHERE (connectedOneId = ? AND connectedTwoId = users.id) 
+        OR 
+        (connectedTwoId = ? AND connectedOneId = users.id)) 
+        WHERE username LIKE  '%${subname}%'
+        `,
+        userOneId,
+        userOneId
+
     )
 }

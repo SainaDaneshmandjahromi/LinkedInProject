@@ -71,3 +71,4 @@ export async function updateUser(id, newUser) {
         id
     )
 }
+

@@ -15,6 +15,7 @@ import { createConnectionsTable } from '@/db/user/connections'
 // messaging
 import { createChatsTable } from '@/db/messaging/chats'
 import { createMessagesTable } from '@/db/messaging/messages'
+import { createUserChatsTable } from '@/db/messaging/userChats'
 
 // posting
 import { createPostsTable } from '@/db/posting/posts'
@@ -73,6 +74,7 @@ export async function createTables() {
     // messaging tables  //DO NOT CHANGE THE PLACE (or you will die by saina's rage -_-)
     await createChatsTable()
     await createMessagesTable()
+    await createUserChatsTable()
 
 
 }

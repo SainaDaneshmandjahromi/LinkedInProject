@@ -54,3 +54,18 @@ export async function withdrawInvitation(invitationId) {
         invitationId
     )
 }
+
+export async function checkInvitationExists(userOneId,userSecondId) {
+    return getDb().get(
+        `
+        SELECT id,count(id) as cnt FROM invitations 
+        WHERE (invitorId = ? AND invitedId = ?)
+        OR
+        (invitedId = ? AND invitorId = ?)
+        `,
+        userOneId,
+        userSecondId,
+        userOneId,
+        userSecondId,
+    )
+}
