@@ -3,11 +3,11 @@ import { getDb } from '@/db'
 
 export const TYPE_BIRTHDAY = 'TYPE_BIRTHDAY'
 export const TYPE_PROFILE_SEEN = 'TYPE_PROFILE_SEEN'
-export const TYPE_POST_LIKE = 'TYPE_POST_LIKE'
-export const TYPE_POST_COMMENT = 'TYPE_POST_COMMENT'
-export const TYPE_COMMENT_LIKE = 'TYPE_COMMENT_LIKE'
-export const TYPE_COMMENT_REPLAY = 'TYPE_COMMENT_REPLAY'
-export const TYPE_ENDORSE = 'TYPE_ENDORSE'
+export const TYPE_POST_LIKE = 'TYPE_POST_LIKE' // 
+export const TYPE_POST_COMMENT = 'TYPE_POST_COMMENT' // 
+export const TYPE_COMMENT_LIKE = 'TYPE_COMMENT_LIKE' // 
+export const TYPE_COMMENT_REPLAY = 'TYPE_COMMENT_REPLAY' // 
+export const TYPE_ENDORSE = 'TYPE_ENDORSE' 
 export const TYPE_CHANGE_JOB_POSITION = 'TYPE_CHANGE_JOB_POSITION'
 
 export async function createNotificationsTable() {
@@ -32,7 +32,7 @@ export async function createNotificationsTable() {
 export async function getUnreadNotificationByReceiverUserId(id) {
     return getDb().get(`
         SELECT * FROM notifications
-        WHERE receiverUserId = ?, isRead = 'false'
+        WHERE receiverUserId = ? AND isRead = 'false'
         `,
         id
     )

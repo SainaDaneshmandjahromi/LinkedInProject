@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import {  TYPE_COMMENT_LIKE,TYPE_COMMENT_REPLAY  , insertNotification} from '@/db/user/notifications'
 import{getUserById} from '@/db/user/users'
 import {getCommentReplies, insertReply} from'@/db/posting/comments'
 import moment from 'moment'
@@ -81,6 +82,19 @@ export default {
             this.myreply.userId = this.userId
             this.myreply.date =  await  moment().format('MMMM Do YYYY, h:mm:ss a')
             await  insertReply(userId,postId,this.comment.id,this.myreply)
+            //  add notification
+                var notif = {
+                receiverUserId : this.comment.userId,
+                transmitterUserId : this.$route.params.userId,
+                type: TYPE_COMMENT_REPLAY,
+                content :'Replied your comment!',
+                isRead: 'false',
+                postId: null,
+                commentId: this.comment.id
+                }
+                await insertNotification(notif)
+        
+            
             this.myreply.text=''
             console.log(this.replies)
             this.replies = await  getCommentReplies(this.comment.id)
@@ -90,6 +104,7 @@ export default {
             const userId = this.$route.params.userId
             const postId = this.$route.params.postId
             var cml = await getCommentLikes(this.comment.id)
+
             var repeated = false
             cml.forEach(element => {
                 if (element.userId == userId){
@@ -99,6 +114,18 @@ export default {
             if (repeated == false){
                 await like_comment(userId,this.comment.id)
                 this.commentLikesCount += 1
+            //  add notification
+                var notif = {
+                receiverUserId : this.comment.userId,
+                transmitterUserId : this.$route.params.userId,
+                type: TYPE_COMMENT_LIKE,
+                content : 'Liked your comment',
+                isRead: 'false',
+                postId: null,
+                commentId: this.comment.id
+                }
+                await insertNotification(notif)
+        
             }
 
         }

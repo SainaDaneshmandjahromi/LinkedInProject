@@ -26,6 +26,7 @@
     </div>
 </template>
 <script>
+import { TYPE_POST_COMMENT, insertNotification} from '@/db/user/notifications'
 
 import {getPostById} from '@/db/posting/posts'
 import{getUserById} from '@/db/user/users'
@@ -55,16 +56,29 @@ export default {
   }, 
   async created() {
         this.post = await getPostById(this.$route.params.postId)
-        this.user  = await getUserById(this.$route.params.userId)
+        this.user  = await getUserById(this.post.userId)
         this.comments = await getPostComments(this.$route.params.postId)
     },
     methods: {
       async onClick(event) {
-          
+
         var userId = this.$route.params.userId
         var postId = this.$route.params.postId
         this.comment.date = await  moment().format('MMMM Do YYYY, h:mm:ss a')
+        
         await insertComment(userId,postId,this.comment)
+        //  add notification
+        var notif = {
+          receiverUserId : this.post.userId,
+          transmitterUserId : this.$route.params.userId,
+          type: TYPE_POST_COMMENT,
+          content : 'Commented on your post!',
+          isRead: 'false',
+          postId: this.post.id,
+          commentId:null
+
+        }
+        await insertNotification(notif)
         
         this.comments = await getPostComments(this.$route.params.postId)
         this.comment.text = ''
