@@ -21,8 +21,9 @@
 
 import UserConnection from '@/components/UserConnection'
 import SearchMessage from '@/components/SearchMessage.vue'
-import { getAllConnections, checkConnectionExists, getMutualConnectionsCount } from '@/db/user/connections'
-import { searchUserByName } from '@/db/user/users'
+import { getAllConnections, checkConnectionExists,
+         getMutualConnectionsCount, searchUserConnection } from '@/db/user/connections'
+
 
 
 
@@ -31,7 +32,7 @@ export default {
        data: () => ({
            connections: [],
            searchedUsers:[],
-           countconnection:{
+           numConnection:{
                id:'',
                cnt:''
            },
@@ -62,26 +63,41 @@ export default {
 
         ////CHECK THIS ONE
         async searchMyMessage(text){
-            this.searchedUsers = await searchUserByName(text,this.$route.params.userId)
-            console.log(this.searchedUsers)
 
-            for(this.searchedUser in this.searchedUsers){
-                this.countconnection = await checkConnectionExists(this.searchedUser.id, this.$route.params.userId)
+            this.connections = []
+            this.searchedUsers = []
 
-                if(this.countconnection.cnt != 0){
-                    this.mutualcount = await getMutualConnectionsCount(this.searchedUser.id, this.$route.params.userId)
-                    this.searchedConnections.push({connectedOneId : this.searchedUser.id ,
+            this.mutualcount.cnt = 0
+            this.numConnection = []
+            this.searchedConnections = []
+            
+            this.searchedUsers = await searchUserConnection(this.$route.params.userId,text)
+
+
+
+            for(const property in this.searchedUsers){
+
+                this.mutualcount = await getMutualConnectionsCount(this.searchedUsers[property].Id, this.$route.params.userId)
+                this.numConnection = await checkConnectionExists(this.searchedUsers[property].Id, this.$route.params.userId)
+
+                this.searchedConnections.push({ connectionId : this.numConnection.id,
+                                                connectedOneId : this.searchedUsers[property].Id ,
                                                 connectedTwoId :  this.$route.params.userId,
                                                 cnt:this.mutualcount.cnt
                                                 })
-                }
-
+                                        
+                this.searchedConnections.sort((a, b) => {
+                    return b.cnt - a.cnt;
+                });
+                
             }
-            console.log(this.searchedConnections)
+            this.connections = this.searchedConnections
         }
 
     },
     async mounted() {
+
+        this.connections = []
         this.connections = await getAllConnections(this.$route.params.userId)
     }
 }

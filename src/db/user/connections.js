@@ -126,3 +126,33 @@ export async function checkConnectionExists(userOneId,userSecondId) {
         userSecondId,
     )
 }
+
+export async function userConnection(userOneId) {
+    return getDb().all(
+        `
+        SELECT * FROM connections JOIN users 
+        WHERE (connectedOneId = ? AND connectedTwoId = users.id) 
+        OR 
+        (connectedTwoId = ? AND connectedOneId = users.id)
+        `,
+        userOneId,
+        userOneId
+
+    )
+}
+
+export async function searchUserConnection(userOneId,subname) {
+    return getDb().all(
+        `
+        SELECT * FROM(
+        SELECT users.Id, users.username FROM connections JOIN users 
+        WHERE (connectedOneId = ? AND connectedTwoId = users.id) 
+        OR 
+        (connectedTwoId = ? AND connectedOneId = users.id)) 
+        WHERE username LIKE  '%${subname}%'
+        `,
+        userOneId,
+        userOneId
+
+    )
+}
