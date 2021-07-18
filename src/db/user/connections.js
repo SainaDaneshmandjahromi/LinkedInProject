@@ -111,3 +111,18 @@ export async function getAllPeopleYouMayKnow(userId) {
         userId
     )
 }
+
+export async function checkConnectionExists(userOneId,userSecondId) {
+    return getDb().get(
+        `
+        SELECT id,count(id) as cnt FROM connections 
+        WHERE (connectedOneId = ? AND connectedTwoId = ?)
+        OR
+        (connectedTwoId = ? AND connectedOneId = ?)
+        `,
+        userOneId,
+        userSecondId,
+        userOneId,
+        userSecondId,
+    )
+}

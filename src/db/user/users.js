@@ -71,3 +71,12 @@ export async function updateUser(id, newUser) {
         id
     )
 }
+
+///Written By Saina :)
+export async function searchUserByName(subname, userId) {
+    return getDb().all(`
+        SELECT * FROM users WHERE users.id != ? AND users.username LIKE  '%${subname}%'
+    `,
+    userId
+    )
+}
