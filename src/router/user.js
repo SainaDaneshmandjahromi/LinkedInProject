@@ -1,8 +1,9 @@
 import User from '@/views/user/User'
 import UserHome from '@/views/user/UserHome'
 import UserProfile from '@/views/user/UserProfile'
+import UserNotifications from '../views/user/UserNotifications'
 import Connection from '@/views/user/Connection'
-import PeoplaYouMayKnow from '@/views/user/PeopleYouMayKnow'
+import PeopleYouMayKnow from '@/views/user/PeopleYouMayKnow'
 import SentInvitation from '@/views/user/SentInvitation'
 import ReceivedInvitation from '@/views/user/ReceivedInvitation'
 import postingRoutes from './posting'
@@ -25,14 +26,19 @@ export default [
                 component: UserProfile
             },
             {
+                path: 'notifications',
+                name: 'UserNotifications',
+                component: UserNotifications
+            },
+            {
                 path: 'connection',
                 name: 'Connection',
                 component: Connection
             },
             {
                 path: 'peopleyoumayknow',
-                name: 'PeoplaYouMayKnow',
-                component: PeoplaYouMayKnow
+                name: 'PeopleYouMayKnow',
+                component: PeopleYouMayKnow
             },
             {
                 path: 'sentinvitation',
