@@ -23,6 +23,7 @@
         <b-nav-item :to="`/user/${this.$route.params.userId}/chat`">Messaging</b-nav-item>
         <b-nav-item :to="`/user/${this.$route.params.userId}/notifications`">Notifications</b-nav-item>
         <b-nav-item :to="`/user/${this.$route.params.userId}/profile`">Profile</b-nav-item>
+        <b-nav-item :to="`/`">Logout</b-nav-item>
       </b-navbar-nav>
 
     </b-collapse>
