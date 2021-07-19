@@ -7,6 +7,7 @@ export async function createUsersTable() {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL UNIQUE,
             password TEXT NOT NULL,
+            avatar NVARCHAR(3),
             birthday TEXT,
             intro TEXT,
             about TEXT,
@@ -43,11 +44,18 @@ export async function getAllUsers() {
 
 export async function insertUser(user) {
     return getDb().run(`
-        INSERT INTO users (username, password) 
-        VALUES (?, ?)
+        INSERT INTO users (username, password, avatar, birthday, intro, about, background, location, currentCompany) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         `,
         user.username,
-        user.password
+        user.password,
+        user.avatar,
+        user.birthday,
+        user.intro,
+        user.about,
+        user.background,
+        user.location,
+        user.currentCompany,
     )
 }
 
@@ -56,18 +64,24 @@ export async function updateUser(id, newUser) {
         UPDATE users
         SET username = ?,
             password = ?,
+            avatar = ?,
             birthday = ?,
             intro = ?,
             about = ?,
-            background = ?
+            background = ?,
+            location = ?,
+            currentCompany = ?
         WHERE id = ?
         `,
         newUser.username,
         newUser.password,
+        newUser.avatar,
         newUser.birthday,
         newUser.intro,
         newUser.about,
         newUser.background,
+        newUser.location,
+        newUser.currentCompany,
         id
     )
 }
