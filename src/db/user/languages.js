@@ -5,9 +5,16 @@ export async function createLanguagesTable() {
     await getDb().exec(`
         CREATE TABLE IF NOT EXISTS languages (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL
+            name TEXT NOT NULL UNIQUE
         )
     `)
+}
+
+export async function dropLanguagesTable() {
+    return getDb().exec(`
+        DROP TABLE IF EXISTS languages
+        `
+    )
 }
 
 export async function getLanguageById(id) {

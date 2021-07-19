@@ -1,6 +1,7 @@
 import User from '@/views/user/User'
 import UserHome from '@/views/user/UserHome'
 import UserProfile from '@/views/user/UserProfile'
+import EditUserProfile from '../views/user/EditUserProfile'
 import UserNotifications from '../views/user/UserNotifications'
 import Connection from '@/views/user/Connection'
 import PeopleYouMayKnow from '@/views/user/PeopleYouMayKnow'
@@ -23,6 +24,16 @@ export default [
             {
                 path: 'profile',
                 name: 'UserProfile',
+                component: UserProfile
+            },
+            {
+                path: 'edit-profile',
+                name: 'EditUserProfile',
+                component: EditUserProfile
+            },
+            {
+                path: 'anonymous-profile/:anonymousUserId',
+                name: 'AnonymousUserProfile',
                 component: UserProfile
             },
             {

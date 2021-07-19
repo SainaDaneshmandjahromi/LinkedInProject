@@ -13,13 +13,13 @@ export async function createUserEndorsedSkillTable() {
     `)
 }
 
-export async function getUserEndorsedSkillsByUserId(userId) {
-    return getDb().get(`
-        SELECT * FROM user_endorsed_skill
-        JOIN skills ON user_endorsed_skill.skillId = skills.id
-        WHERE userId = ?
+export async function getEndorsedUsersBySkillId(skillId) {
+    return getDb().all(`
+        SELECT users.* FROM user_endorsed_skill
+        JOIN users ON user_endorsed_skill.userId = users.id
+        WHERE skillId = ?
         `,
-        userId
+        skillId
     )
 }
 
