@@ -27,6 +27,7 @@ import{getUserById} from '@/db/user/users'
 import{like_post,  getPostLikesCount,getPostLikes} from '@/db/posting/postLikes'
 import{ getPostById} from '@/db/posting/posts'
 import { getPostComments} from '@/db/posting/comments'
+import {TYPE_POST_LIKE,insertNotification} from '@/db/user/notifications'
 export default {
   name: 'user-post',
   props: {
@@ -76,8 +77,19 @@ export default {
       });
       if (repeated == false){
         await like_post(userId,this.post.id)
-        // alert("liked!")
-        // console.log('you are good!')
+       //  add notification
+       var notif = {
+           receiverUserId : this.post.userId,
+          transmitterUserId : this.$route.params.userId,
+          type: TYPE_POST_LIKE,
+          content : 'Liked your post!',
+          isRead: 'false',
+          postId: this.post.id,
+          commentId:null
+
+        }
+        await insertNotification(notif)
+        
         this.likeCount["cnt"] += 1
       }
   

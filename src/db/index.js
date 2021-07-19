@@ -11,6 +11,7 @@ import { createFavoritesTable } from '@/db/user/favorites'
 import { createUserEndorsedSkillTable } from '@/db/user/userEndorsedSkill'
 import { createInvitationsTable } from '@/db/user/invitations'
 import { createConnectionsTable } from '@/db/user/connections'
+import { createNotificationsTable } from '@/db/user/notifications'
 
 // messaging
 import { createChatsTable } from '@/db/messaging/chats'
@@ -63,6 +64,7 @@ export async function createTables() {
     await createUserEndorsedSkillTable()
     await createInvitationsTable()
     await createConnectionsTable()
+    await createNotificationsTable()
 
     // posting tables 
     await createPostsTable()
