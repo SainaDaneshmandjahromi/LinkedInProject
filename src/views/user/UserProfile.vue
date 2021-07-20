@@ -81,7 +81,7 @@
       <p>{{ user.background }}</p>
     </b-card>
 
-    <b-card class="mt-3">
+    <b-card v-if="!isAnonymous || favorites.length > 0" class="mt-3">
       <h4 class="font-weight-normal mb-4">Favorites</h4>
       <b-card no-body v-for="favorite in favorites" :key="favorite.id" class="mb-2 px-3 pt-3">
         <p class="font-weight-normal">{{ favorite.content }}</p>
@@ -98,7 +98,7 @@
       </b-button>
     </b-card>
 
-    <b-card class="mt-3">
+    <b-card v-if="!isAnonymous || skills.length > 0" class="mt-3">
       <h4 class="font-weight-normal mb-3">Skills & Endorsements</h4>
       <b-card v-for="(skill, i) in skills" :key="skill.id" class="mb-2">
         <p class="font-weight-normal">{{ skill.name }}</p>
@@ -144,7 +144,7 @@
       </b-button>
     </b-card>
 
-    <b-card class="mt-3">
+    <b-card v-if="!isAnonymous || accomplishments.length > 0" class="mt-3">
       <h4 class="font-weight-normal mb-3">Accomplishments</h4>
       <b-card no-body v-for="accomplishment in accomplishments" :key="accomplishment.id" class="mb-2 px-3 pt-3">
         <p class="font-weight-normal">{{ accomplishment.name }}</p>
