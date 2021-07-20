@@ -1,5 +1,6 @@
 import User from '@/views/user/User'
 import UserHome from '@/views/user/UserHome'
+import UserSearch from '../views/user/UserSearch'
 import UserProfile from '@/views/user/UserProfile'
 import EditUserProfile from '../views/user/EditUserProfile'
 import UserNotifications from '../views/user/UserNotifications'
@@ -9,6 +10,9 @@ import SentInvitation from '@/views/user/SentInvitation'
 import ReceivedInvitation from '@/views/user/ReceivedInvitation'
 import postingRoutes from './posting'
 import messagingRoutes from './messaging'
+import EditFavorites from '../views/user/EditFavorites'
+import EditSkills from '../views/user/EditSkills'
+import EditAccomplishments from '../views/user/EditAccomplishments'
 
 
 export default [
@@ -22,6 +26,11 @@ export default [
                 component: UserHome
             },
             {
+                path: 'search/:username',
+                name: 'UserSearch',
+                component: UserSearch
+            },
+            {
                 path: 'profile',
                 name: 'UserProfile',
                 component: UserProfile
@@ -30,6 +39,21 @@ export default [
                 path: 'edit-profile',
                 name: 'EditUserProfile',
                 component: EditUserProfile
+            },
+            {
+                path: 'edit-favorites',
+                name: 'EditFavorites',
+                component: EditFavorites
+            },
+            {
+                path: 'edit-skills',
+                name: 'EditSkills',
+                component: EditSkills
+            },
+            {
+                path: 'edit-accomplishments',
+                name: 'EditAccomplishments',
+                component: EditAccomplishments
             },
             {
                 path: 'anonymous-profile/:anonymousUserId',

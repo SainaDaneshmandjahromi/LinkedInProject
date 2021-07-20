@@ -23,22 +23,23 @@ export async function getEndorsedUsersBySkillId(skillId) {
     )
 }
 
-export async function insertUserEndorsedSkill(userEndorsedSkill) {
+export async function insertUserEndorsedSkill(userId, skillId) {
     return getDb().run(`
         INSERT INTO user_endorsed_skill (userId, skillId) 
         VALUES (?, ?)
         `,
-        userEndorsedSkill.userId,
-        userEndorsedSkill.skillId
+        userId,
+        skillId
     )
 }
 
-export async function deleteUserEndorsedSkill(id) {
+export async function deleteUserEndorsedSkill(userId, skillId) {
     return getDb().run(`
         DELETE FROM user_endorsed_skill
-        WHERE id = ?
+        WHERE userId = ? AND skillId = ?
         `,
-        id
+        userId,
+        skillId
     )
 }
 
