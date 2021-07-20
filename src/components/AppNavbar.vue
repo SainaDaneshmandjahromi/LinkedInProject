@@ -11,8 +11,31 @@
 
       <b-navbar-nav>
         <b-nav-form>
-          <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
-          <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
+          <b-form-input
+            size="sm"
+            class="mr-sm-2"
+            placeholder="Search User"
+            v-model="searchedUsernamePattern"
+          ></b-form-input>
+          <b-button size="sm" class="my-2 my-sm-0" @click="search">Search</b-button>
+
+          <b-modal id="empty-username-search" hide-footer>
+            <template #modal-title>
+              Attention
+            </template>
+            <div class="d-block text-center">
+              <h3 class="font-weight-normal">Do you know, you should type some username then press search button?🤔</h3>
+            </div>
+            <b-button
+              class="mt-5"
+              variant="warning"
+              block
+              @click="$bvModal.hide('empty-username-search')"
+            >
+              Ohhh myyy god! Seriously!?!😱
+            </b-button>
+          </b-modal>
+
         </b-nav-form>
       </b-navbar-nav>
 
@@ -33,6 +56,19 @@
 
 <script>
 export default {
-  name: 'AppNavbar'
+  name: 'AppNavbar',
+  data: () => ({
+    searchedUsernamePattern: ''
+  }),
+  methods: {
+    search() {
+      if (this.searchedUsernamePattern !== '') {
+        // todo: need fix for other routes except home
+        this.$router.push(`${this.$route.params.userId}/search/${this.searchedUsernamePattern}`)
+      } else {
+        this.$bvModal.show('empty-username-search')
+      }
+    }
+  }
 }
 </script>

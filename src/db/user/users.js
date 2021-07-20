@@ -36,6 +36,14 @@ export async function getUserByUsername(username){
     )
 }
 
+export async function getUsersThatUsernameLike(username){ // TODO: unsafe
+    return getDb().all(`
+        SELECT * FROM users
+        WHERE username LIKE '%${username}%' 
+        `
+    )
+}
+
 export async function getAllUsers() {
     return getDb().all(`
         SELECT * FROM users
