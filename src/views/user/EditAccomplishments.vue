@@ -47,6 +47,7 @@ export default {
   }),
   methods: {
     async addItem() {
+      if (this.item.name === '') return // ignore empty item
       await insertAccomplishment(this.item)
       await this.fetchItems()
       this.item.name = ''

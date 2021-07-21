@@ -42,6 +42,7 @@ export default {
   }),
   methods: {
     async addItem() {
+      if (this.item.content === '') return // ignore empty item
       await insertFavorite(this.item)
       await this.fetchItems()
       this.item.content = ''
