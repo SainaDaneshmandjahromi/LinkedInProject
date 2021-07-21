@@ -63,9 +63,9 @@ export default {
   methods: {
     search() {
       if (this.searchedUsernamePattern !== '') {
-        // todo: need fix for other routes except home
-        this.$router.push(`${this.$route.params.userId}/search/${this.searchedUsernamePattern}`)
-      } else {
+        this.$router.push( `/user/${this.$route.params.userId}/search/${this.searchedUsernamePattern}` )      
+      }    
+      else {
         this.$bvModal.show('empty-username-search')
       }
     }
