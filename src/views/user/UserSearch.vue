@@ -18,7 +18,7 @@
       <!--todo need fix-->
       <b-row class="justify-content-end mr-1">
         <b-button
-        @click="GoToProfile(user.id)"
+          @click="goToProfile(user.id)"
         >Go to profile
         </b-button>
       </b-row>
@@ -34,8 +34,8 @@ export default {
   data: () => ({
     similarUsers: []
   }),
-  methods:{
-    GoToProfile(userId) {
+  methods: {
+    goToProfile(userId) {
       this.$router.push(`/user/${this.$route.params.userId}/anonymous-profile/${userId}`)
     },
   },
