@@ -121,19 +121,16 @@ export default {
     UnArchiveChat() {
       updateArchiveStat(this.$route.params.chatId, this.$route.params.userId, 'NotArchived')
       this.$router.push(`/user/${this.$route.params.userId}/chat`)
-      alert('Chat Removed from Archive')
     },
 
     ArchiveChat() {
       updateArchiveStat(this.$route.params.chatId, this.$route.params.userId, 'Archived')
       this.$router.push(`/user/${this.$route.params.userId}/archivedchat`)
-      alert('Chat Added To Archive')
     },
 
     MakeUnread() {
       updateReadStat(this.$route.params.chatId, this.$route.params.userId, 'NotRead')
       this.$router.push(`/user/${this.$route.params.userId}/unreadchat`)
-      alert('Chat Added To Unread')
     }
 
 
