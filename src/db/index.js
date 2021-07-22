@@ -22,8 +22,9 @@ import { createUserChatsTable } from '@/db/messaging/userChats'
 import { createPostsTable } from '@/db/posting/posts'
 import { createCommentsTable } from '@/db/posting/comments'
 import { createPostLikesTable } from '@/db/posting/postLikes'
-import {createCommentLikesTable} from '@/db/posting/commentLikes'
+import { createCommentLikesTable } from '@/db/posting/commentLikes'
 
+import { dropLanguagesTable, insertLanguage } from './user/languages'
 
 sqlite3.verbose()
 let db
@@ -45,9 +46,9 @@ export function getDb() {
 
 // HELPERS:
 // exec for parameterless query
-// all for getting list multiple rows
-// get for one row
 // run is like exec but has param
+// get for getting one row (as object)
+// all for getting multiple rows (as list)
 // https://github.com/kriasoft/node-sqlite
 export async function createTables() {
 
@@ -59,8 +60,6 @@ export async function createTables() {
     await createUsersTable()
     await createAccomplishmentsTable()
     await createSkillsTable()
-    await createLanguagesTable()
-    await createUserLanguageTable()
     await createFavoritesTable()
     await createUserEndorsedSkillTable()
     await createInvitationsTable()
@@ -80,7 +79,18 @@ export async function createTables() {
 }
 
 export async function generateRealData() {
-    // to be filled!
+    await dropLanguagesTable()
+    await createLanguagesTable()
+    await createUserLanguageTable()
+
+    // WARNING! DO NOT CHANGE THE ORDER OR REMOVE ITEMS OR USER WILL BE MAD AT US!
+    await insertLanguage({name: 'English'})
+    await insertLanguage({name: 'Persian'})
+    await insertLanguage({name: 'Russian'})
+    await insertLanguage({name: 'German'})
+    await insertLanguage({name: 'French'})
+    await insertLanguage({name: 'Chinese'})
+    await insertLanguage({name: 'Korean'})
 }
 
 export async function generateFakeData() {

@@ -13,32 +13,33 @@ export async function createUserEndorsedSkillTable() {
     `)
 }
 
-export async function getUserEndorsedSkillsByUserId(userId) {
-    return getDb().get(`
-        SELECT * FROM user_endorsed_skill
-        JOIN skills ON user_endorsed_skill.skillId = skills.id
-        WHERE userId = ?
+export async function getEndorsedUsersBySkillId(skillId) {
+    return getDb().all(`
+        SELECT users.* FROM user_endorsed_skill
+        JOIN users ON user_endorsed_skill.userId = users.id
+        WHERE skillId = ?
         `,
-        userId
+        skillId
     )
 }
 
-export async function insertUserEndorsedSkill(userEndorsedSkill) {
+export async function insertUserEndorsedSkill(userId, skillId) {
     return getDb().run(`
         INSERT INTO user_endorsed_skill (userId, skillId) 
         VALUES (?, ?)
         `,
-        userEndorsedSkill.userId,
-        userEndorsedSkill.skillId
+        userId,
+        skillId
     )
 }
 
-export async function deleteUserEndorsedSkill(id) {
+export async function deleteUserEndorsedSkill(userId, skillId) {
     return getDb().run(`
         DELETE FROM user_endorsed_skill
-        WHERE id = ?
+        WHERE userId = ? AND skillId = ?
         `,
-        id
+        userId,
+        skillId
     )
 }
 

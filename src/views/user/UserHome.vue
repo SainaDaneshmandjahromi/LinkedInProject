@@ -1,25 +1,36 @@
 <template>
   <section>
-    <h1>This user home!</h1>
-    <br>
-    <p>Loaded Id: {{ user.id }} </p>
-    <p>Loaded username: {{ user.username }} </p>
-    <b-button
-      :to="`/user/${this.$route.params.userId}/newpost`"
-      variant="danger"
-    >Create New Post</b-button>
-    <b-button
-      :to="`/user/${this.$route.params.userId}/myposts`"
-      variant="danger"
-    >My Feed</b-button>
+
+    <b-card>
+      <b-row class="justify-content-center">
+        <h1 class="mt-2 font-weight-light">Welcome {{ user.username }}</h1>
+      </b-row>
+
+      <b-row class="justify-content-center mt-4">
+        <b-button
+          class="mb-3"
+          :to="`/user/${this.$route.params.userId}/newpost`"
+          variant="outline-primary"
+        >
+          Create New Post
+        </b-button>
+      </b-row>
+    </b-card>
+
+    <user-posts class="mt-3"></user-posts>
+
   </section>
 </template>
 
 <script>
 import { getUserById } from '@/db/user/users'
+import UserPosts from '../../components/UserPosts'
 
 export default {
   name: 'UserHome',
+  components: {
+    UserPosts
+  },
   data: () => ({
     user: {
       id: '',

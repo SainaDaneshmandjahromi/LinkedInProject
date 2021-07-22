@@ -7,7 +7,6 @@ import { openDb, createTables, generateRealData, generateFakeData } from '@/db'
 
 Vue.config.productionTip = false;
 
-
 (async () => {
 
     try {

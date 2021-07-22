@@ -11,8 +11,31 @@
 
       <b-navbar-nav>
         <b-nav-form>
-          <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
-          <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
+          <b-form-input
+            size="sm"
+            class="mr-sm-2"
+            placeholder="Search User"
+            v-model="searchedUsernamePattern"
+          ></b-form-input>
+          <b-button size="sm" class="my-2 my-sm-0" @click="search">Search</b-button>
+
+          <b-modal id="empty-username-search" hide-footer>
+            <template #modal-title>
+              Attention
+            </template>
+            <div class="d-block text-center">
+              <h3 class="font-weight-normal">Do you know, you should type some username then press search button?🤔</h3>
+            </div>
+            <b-button
+              class="mt-5"
+              variant="warning"
+              block
+              @click="$bvModal.hide('empty-username-search')"
+            >
+              Ohhh myyy god! Seriously!?!😱
+            </b-button>
+          </b-modal>
+
         </b-nav-form>
       </b-navbar-nav>
 
@@ -20,9 +43,10 @@
       <b-navbar-nav class="ml-auto">
         <b-nav-item :to="`/user/${this.$route.params.userId}`">Home</b-nav-item>
         <b-nav-item :to="`/user/${this.$route.params.userId}/connection`">My Network</b-nav-item>
-        <b-nav-item  :to="`/user/${this.$route.params.userId}/chat`">Messaging</b-nav-item>
-        <b-nav-item>Notifications</b-nav-item>
+        <b-nav-item :to="`/user/${this.$route.params.userId}/chat`">Messaging</b-nav-item>
+        <b-nav-item :to="`/user/${this.$route.params.userId}/notifications`">Notifications</b-nav-item>
         <b-nav-item :to="`/user/${this.$route.params.userId}/profile`">Profile</b-nav-item>
+        <b-nav-item :to="`/`">Logout</b-nav-item>
       </b-navbar-nav>
 
     </b-collapse>
@@ -32,6 +56,19 @@
 
 <script>
 export default {
-  name: 'AppNavbar'
+  name: 'AppNavbar',
+  data: () => ({
+    searchedUsernamePattern: ''
+  }),
+  methods: {
+    search() {
+      if (this.searchedUsernamePattern !== '') {
+        this.$router.push( `/user/${this.$route.params.userId}/search/${this.searchedUsernamePattern}` )      
+      }    
+      else {
+        this.$bvModal.show('empty-username-search')
+      }
+    }
+  }
 }
 </script>

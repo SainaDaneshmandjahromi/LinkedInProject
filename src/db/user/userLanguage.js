@@ -13,9 +13,9 @@ export async function createUserLanguageTable() {
     `)
 }
 
-export async function getUserLanguagesByUserId(userId) {
-    return getDb().get(`
-        SELECT * FROM user_language
+export async function getLanguagesByUserId(userId) {
+    return getDb().all(`
+        SELECT languages.* FROM user_language
         JOIN languages ON user_language.languageId = languages.id
         WHERE userId = ?
         `,
@@ -23,21 +23,22 @@ export async function getUserLanguagesByUserId(userId) {
     )
 }
 
-export async function insertUserLanguage(userLanguage) {
+export async function insertUserLanguage(userId, languageId) {
     return getDb().run(`
         INSERT INTO user_language (userId, languageId) 
         VALUES (?, ?)
         `,
-        userLanguage.userId,
-        userLanguage.languageId
+        userId,
+        languageId
     )
 }
 
-export async function deleteUserLanguage(id) {
+export async function deleteUserLanguage(userId, languageId) {
     return getDb().run(`
         DELETE FROM user_language
-        WHERE id = ?
+        WHERE userId = ? AND languageId = ?
         `,
-        id
+        userId,
+        languageId
     )
 }
