@@ -87,9 +87,8 @@ export default {
                 receiverUserId : this.comment.userId,
                 transmitterUserId : this.$route.params.userId,
                 type: TYPE_COMMENT_REPLAY,
-                content :'Replied your comment!',
-                isRead: 'false',
-                postId: null,
+                isRead: 0,
+                postId: this.$route.params.postId,
                 commentId: this.comment.id
                 }
                 await insertNotification(notif)
@@ -119,9 +118,8 @@ export default {
                 receiverUserId : this.comment.userId,
                 transmitterUserId : this.$route.params.userId,
                 type: TYPE_COMMENT_LIKE,
-                content : 'Liked your comment',
-                isRead: 'false',
-                postId: null,
+                isRead: 0,
+                postId: this.$route.params.postId,
                 commentId: this.comment.id
                 }
                 await insertNotification(notif)

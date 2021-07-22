@@ -32,6 +32,47 @@
             saw your profile
           </b-col>
 
+          <b-col cols="auto" v-else-if="notification.type === 'TYPE_POST_LIKE'">
+            <router-link :to="`anonymous-profile/${notification.user.id}`">
+              {{ notification.user.username }}
+            </router-link>
+
+            Liked your 
+
+             <router-link :to="`${notification.postId}/expandpost`">
+               post 
+            </router-link>
+
+          </b-col>
+
+          <b-col cols="auto" v-else-if="notification.type === 'TYPE_POST_COMMENT'">
+            <router-link :to="`anonymous-profile/${notification.user.id}`">
+              {{ notification.user.username }}
+            </router-link>
+            Commented on your 
+             <router-link :to="`${notification.postId}/expandpost`">
+               Post 
+            </router-link>
+          </b-col>
+
+          <b-col cols="auto" v-else-if="notification.type === 'TYPE_COMMENT_LIKE'">
+            <router-link :to="`anonymous-profile/${notification.user.id}`">
+              {{ notification.user.username }}
+            </router-link>
+            Liked your comment on this 
+             <router-link :to="`${notification.postId}/expandpost`">
+               Post 
+            </router-link>
+          </b-col>
+          <b-col cols="auto" v-else-if=" notification.type === 'TYPE_COMMENT_REPLAY' ">
+            <router-link :to="`anonymous-profile/${notification.user.id}`">
+              {{ notification.user.username }}
+            </router-link>
+            Replied your comment on this 
+             <router-link :to="`${notification.postId}/expandpost`">
+               Post 
+            </router-link>
+          </b-col>
 
           <b-col cols="auto">
             <b-button variant="primary" @click="markAsRead(notification)">
@@ -42,7 +83,7 @@
       </b-card>
 
     </b-tab>
-    <b-tab title="Read" :title="`read(${readNotifications.length})`">
+    <b-tab  :title="`read(${readNotifications.length})`">
 
 
     </b-tab>

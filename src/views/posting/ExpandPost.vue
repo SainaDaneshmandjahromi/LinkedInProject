@@ -72,8 +72,7 @@ export default {
           receiverUserId : this.post.userId,
           transmitterUserId : this.$route.params.userId,
           type: TYPE_POST_COMMENT,
-          content : 'Commented on your post!',
-          isRead: 'false',
+          isRead: 0,
           postId: this.post.id,
           commentId:null
 

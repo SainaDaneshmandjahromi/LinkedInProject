@@ -82,8 +82,7 @@ export default {
            receiverUserId : this.post.userId,
           transmitterUserId : this.$route.params.userId,
           type: TYPE_POST_LIKE,
-          content : 'Liked your post!',
-          isRead: 'false',
+          isRead: 0,
           postId: this.post.id,
           commentId:null
 
