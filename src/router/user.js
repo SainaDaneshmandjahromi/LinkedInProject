@@ -26,7 +26,7 @@ export default [
                 component: UserHome
             },
             {
-                path: 'search/:username',
+                path: 'search/:pattern',
                 name: 'UserSearch',
                 component: UserSearch
             },
