@@ -153,8 +153,8 @@ export default {
         console.log(logKon)
         const previousBirthdayNotification = await getBirthdayNotificationByUserIdIfTodayInserted(
           this.$route.params.userId,
-          userConnections.id,
-          logKon
+          userConnection.id,
+          moment().format('YYYY-MM-DD')
         )
 
         console.log(previousBirthdayNotification.length)
