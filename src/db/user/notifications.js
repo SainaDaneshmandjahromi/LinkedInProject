@@ -18,14 +18,30 @@ export async function createNotificationsTable() {
             transmitterUserId INTEGER NOT NULL,
             type TEXT NOT NULL,
             isRead INTEGER NOT NULL,
+            creationDate Text,
+            newCurrentCompany TEXT,
             postId INTEGER,
             commentId INTEGER,
+            skillId INTEGER,
             FOREIGN KEY (receiverUserId) REFERENCES users(id),
             FOREIGN KEY (transmitterUserId) REFERENCES users(id),
             FOREIGN KEY (postId) REFERENCES posts(id),
             FOREIGN KEY (commentId) REFERENCES comments(id)
         )
     `)
+}
+
+export async function getBirthdayNotificationByUserIdIfTodayInserted(receiverUserId, transmitterUserId, date) {
+    return getDb().all(`
+        SELECT * FROM notifications
+        WHERE receiverUserId = ? AND
+              transmitterUserId = ? AND
+              creationDate = ?
+        `,
+        receiverUserId,
+        transmitterUserId,
+        date
+    )
 }
 
 export async function getUnreadNotificationByReceiverUserId(id) {
@@ -48,15 +64,19 @@ export async function getReadNotificationByReceiverUserId(id) {
 
 export async function insertNotification(notification) {
     return getDb().run(`
-        INSERT INTO notifications (receiverUserId, transmitterUserId, type, isRead, postId, commentId)
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO notifications(receiverUserId, transmitterUserId, type, isRead, creationDate, newCurrentCompany,
+         postId, commentId, skillId)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         `,
         notification.receiverUserId,
         notification.transmitterUserId,
         notification.type,
         notification.isRead,
+        notification.creationDate,
+        notification.newCurrentCompany,
         notification.postId,
-        notification.commentId
+        notification.commentId,
+        notification.skillId
     )
 }
 

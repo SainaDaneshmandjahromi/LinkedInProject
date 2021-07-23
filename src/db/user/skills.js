@@ -12,6 +12,15 @@ export async function createSkillsTable() {
     `)
 }
 
+export async function getSkillById(id) {
+    return getDb().get(`
+        SELECT * FROM skills
+        WHERE id = ?
+        `,
+        id
+    )
+}
+
 export async function getSkillsByUserId(userId) {
     return getDb().all(`
         SELECT * FROM skills

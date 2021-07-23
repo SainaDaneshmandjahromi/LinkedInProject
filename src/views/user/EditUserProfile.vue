@@ -118,12 +118,15 @@ import { getAllLanguages } from '../../db/user/languages'
 import { getAccomplishmentsByUserId } from '../../db/user/accomplishments'
 import { getFavoritesByUserId } from '../../db/user/favorites'
 import { getSkillsByUserId } from '../../db/user/skills'
+import { insertNotification, TYPE_CHANGE_JOB_POSITION } from '../../db/user/notifications'
+import { userConnection } from '../../db/user/connections'
 
 export default {
   name: 'EditUserProfile',
   data: () => ({
     isUsernameValid: true,
-    userCurrentUsername: '',
+    userPreviousUsername: '',
+    userPreviousCompany: '',
     user: {
       id: '',
       username: '',
@@ -150,7 +153,7 @@ export default {
   },
   methods: {
     async isUsernameAvailable() {
-      if (this.userCurrentUsername === this.user.username) {
+      if (this.userPreviousUsername === this.user.username) {
         this.isUsernameValid = true
         return
       }
@@ -159,6 +162,21 @@ export default {
     },
     async updateUser() {
       this.user.username = this.user.username.toLowerCase()
+
+      if (this.userPreviousCompany !== this.user.currentCompany) { // send notification
+
+        const userConnections = await userConnection(this.user.id)
+        for (const userConnection of userConnections) {
+          await insertNotification({
+            receiverUserId: userConnection.id,
+            transmitterUserId: this.user.id,
+            type: TYPE_CHANGE_JOB_POSITION,
+            isRead: false,
+            newCurrentCompany: this.user.currentCompany
+          })
+        }
+      }
+
       await updateUser(this.user.id, this.user)
 
       // insert or delete user languages
@@ -178,7 +196,8 @@ export default {
   },
   async mounted() {
     this.user = await getUserById(this.$route.params.userId)
-    this.userCurrentUsername = this.user.username
+    this.userPreviousUsername = this.user.username
+    this.userPreviousCompany = this.user.currentCompany
 
     this.userLanguages = await getLanguagesByUserId(this.user.id)
     this.selectedLanguages = this.userLanguages

@@ -167,12 +167,16 @@
 import { getUserById } from '@/db/user/users'
 import { getFavoritesByUserId } from '@/db/user/favorites'
 import { getSkillsByUserId } from '@/db/user/skills'
-import { getEndorsedUsersBySkillId } from '../../db/user/userEndorsedSkill'
+import {
+  deleteUserEndorsedSkill,
+  getEndorsedUsersBySkillId,
+  insertUserEndorsedSkill
+} from '../../db/user/userEndorsedSkill'
 import { getLanguagesByUserId } from '../../db/user/userLanguage'
 import { getAccomplishmentsByUserId } from '../../db/user/accomplishments'
 import { checkConnectionExists } from '../../db/user/connections'
 import { checkInvitationExists, sendInvitation } from '../../db/user/invitations'
-import { insertUserEndorsedSkill, deleteUserEndorsedSkill } from '../../db/user/userEndorsedSkill'
+import { insertNotification, TYPE_ENDORSE } from '../../db/user/notifications'
 
 export default {
   name: 'UserProfile',
@@ -207,20 +211,21 @@ export default {
     skills: [],
     accomplishments: []
   }),
-  computed:{
-    showEndorseButton(i){
-      return this.isAnonymous && !this.skills[i].endorsedUsers.filter(e => e.id === this.loggedInUserId)
-    },
-    showDisapproveButton(i){
-      return this.isAnonymous && this.skills[i].endorsedUsers.some(e => e.id === this.loggedInUserId)
-    },
-  },
   methods: {
-    async endorse(skillId, i){
+    async endorse(skillId, i) {
       await insertUserEndorsedSkill(this.$route.params.userId, skillId)
       this.skills[i].endorsedUsers.push(this.loggedInUser)
+
+      await insertNotification({
+        receiverUserId: this.user.id,
+        transmitterUserId: this.loggedInUser.id,
+        type: TYPE_ENDORSE,
+        isRead: false,
+        skillId: skillId
+      })
+
     },
-    async undoEndorse(skillId, i){
+    async undoEndorse(skillId, i) {
       await deleteUserEndorsedSkill(this.$route.params.userId, skillId)
       this.skills[i].endorsedUsers = this.skills[i].endorsedUsers.filter(user => user.id !== this.loggedInUser.id)
     },
@@ -247,7 +252,7 @@ export default {
         this.connected = true
       }
     },
-    async fetchSkillsAndEndorsements(){
+    async fetchSkillsAndEndorsements() {
       this.skills = []
 
       const skills = await getSkillsByUserId(this.user.id)
@@ -259,7 +264,7 @@ export default {
         })
       }
     },
-    async fetchProfileData(){
+    async fetchProfileData() {
       // fetch target user
       const userId = this.$route.params.userId
       const anonymousUserId = this.$route.params.anonymousUserId
