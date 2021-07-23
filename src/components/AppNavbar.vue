@@ -15,22 +15,22 @@
             size="sm"
             class="mr-sm-2"
             placeholder="Search User"
-            v-model="searchedUsernamePattern"
+            v-model="searchedPattern"
           ></b-form-input>
           <b-button size="sm" class="my-2 my-sm-0" @click="search">Search</b-button>
 
-          <b-modal id="empty-username-search" hide-footer>
+          <b-modal id="empty-search" hide-footer>
             <template #modal-title>
               Attention
             </template>
             <div class="d-block text-center">
-              <h3 class="font-weight-normal">Do you know, you should type some username then press search button?🤔</h3>
+              <h3 class="font-weight-normal">Do you know, you should type some patterns then press search button?🤔</h3>
             </div>
             <b-button
               class="mt-5"
               variant="warning"
               block
-              @click="$bvModal.hide('empty-username-search')"
+              @click="$bvModal.hide('empty-search')"
             >
               Ohhh myyy god! Seriously!?!😱
             </b-button>
@@ -58,15 +58,14 @@
 export default {
   name: 'AppNavbar',
   data: () => ({
-    searchedUsernamePattern: ''
+    searchedPattern: ''
   }),
   methods: {
     search() {
-      if (this.searchedUsernamePattern !== '') {
-        this.$router.push( `/user/${this.$route.params.userId}/search/${this.searchedUsernamePattern}` )      
-      }    
-      else {
-        this.$bvModal.show('empty-username-search')
+      if (this.searchedPattern !== '') {
+        this.$router.push(`/user/${this.$route.params.userId}/search/${this.searchedPattern}`)
+      } else {
+        this.$bvModal.show('empty-search')
       }
     }
   }

@@ -27,7 +27,7 @@ export async function getUserById(id) {
     )
 }
 
-export async function getUserByUsername(username){
+export async function getUserByUsername(username) {
     return getDb().get(`
         SELECT * FROM users
         WHERE username = ?
@@ -36,10 +36,26 @@ export async function getUserByUsername(username){
     )
 }
 
-export async function getUsersThatUsernameLike(username){ // TODO: unsafe
+export async function getUsersThatUsernameLike(username) { // TODO: unsafe
     return getDb().all(`
         SELECT * FROM users
         WHERE username LIKE '%${username}%' 
+        `
+    )
+}
+
+export async function getUsersThatLocationLike(location) { // TODO: unsafe
+    return getDb().all(`
+        SELECT * FROM users
+        WHERE location LIKE '%${location}%' 
+        `
+    )
+}
+
+export async function getUsersThatCurrentCompanyLike(currentCompany) { // TODO: unsafe
+    return getDb().all(`
+        SELECT * FROM users
+        WHERE currentCompany LIKE '%${currentCompany}%' 
         `
     )
 }

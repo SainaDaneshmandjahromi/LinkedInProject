@@ -23,6 +23,15 @@ export async function getLanguagesByUserId(userId) {
     )
 }
 
+export async function getUsersThatLanguagesLike(languagePattern) {
+    return getDb().all(`
+        SELECT DISTINCT users.* FROM  user_language
+        JOIN users ON user_language.userId = users.id
+        WHERE languageId IN (SELECT id FROM languages WHERE name LIKE '%${languagePattern}%')
+        `
+    )
+}
+
 export async function insertUserLanguage(userId, languageId) {
     return getDb().run(`
         INSERT INTO user_language (userId, languageId) 
