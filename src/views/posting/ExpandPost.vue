@@ -15,7 +15,7 @@
           <b-button @click="onClick" variant="outline-primary">Send</b-button>
         </b-col>
         <br>
-            <div :key="comment.id" v-for="comment in comments.slice().reverse()">
+            <div :key="comment.id" v-for="comment in comments">
             <comment
             :comment="comment"
             />

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mt-2" :key="post.id" v-for="post in posts.slice().reverse()">
+    <div class="mt-2" :key="post.id" v-for="post in posts">
       <user-post
         :post="post"
       />
@@ -21,7 +21,7 @@ export default {
       id: '',
       username: '',
     },
-    posts: []
+     posts: [],
   }),
 
   components: {
