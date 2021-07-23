@@ -15,8 +15,8 @@
       </b-row>
 
       <b-card class="mt-2" v-for="notification in unreadNotifications" :key="notification.id">
-        <b-row class="justify-content-between">
 
+        <b-row class="justify-content-between">
           <!-- create notification base on it's type -->
           <b-col cols="auto" v-if="notification.type === 'TYPE_BIRTHDAY'">
             It's
@@ -97,10 +97,104 @@
       </b-card>
 
     </b-tab>
+
     <b-tab :title="`Read(${readNotifications.length})`">
 
+      <b-row class="mt-3">
+        <b-col cols="auto">
+          <b-button
+            variant="danger"
+            @click="markAllAsUnread"
+          >
+            Mark all as unread
+          </b-button>
+        </b-col>
+      </b-row>
+
+      <b-card class="mt-2" v-for="notification in readNotifications" :key="notification.id">
+
+        <b-row class="justify-content-between">
+          <!-- create notification base on it's type -->
+          <b-col cols="auto" v-if="notification.type === 'TYPE_BIRTHDAY'">
+            It's
+            <router-link :to="`anonymous-profile/${notification.user.id}`">
+              {{ notification.user.username }}
+            </router-link>
+            's birthday
+          </b-col>
+
+          <b-col cols="auto" v-else-if="notification.type === 'TYPE_PROFILE_SEEN'">
+            <router-link :to="`anonymous-profile/${notification.user.id}`">
+              {{ notification.user.username }}
+            </router-link>
+            saw your profile
+          </b-col>
+
+          <b-col cols="auto" v-else-if="notification.type === 'TYPE_POST_LIKE'">
+            <router-link :to="`anonymous-profile/${notification.user.id}`">
+              {{ notification.user.username }}
+            </router-link>
+            Liked your
+            <router-link :to="`${notification.postId}/expandpost`">
+              post
+            </router-link>
+          </b-col>
+
+          <b-col cols="auto" v-else-if="notification.type === 'TYPE_POST_COMMENT'">
+            <router-link :to="`anonymous-profile/${notification.user.id}`">
+              {{ notification.user.username }}
+            </router-link>
+            Commented on your
+            <router-link :to="`${notification.postId}/expandpost`">
+              Post
+            </router-link>
+          </b-col>
+
+          <b-col cols="auto" v-else-if="notification.type === 'TYPE_COMMENT_LIKE'">
+            <router-link :to="`anonymous-profile/${notification.user.id}`">
+              {{ notification.user.username }}
+            </router-link>
+            Liked your comment on this
+            <router-link :to="`${notification.postId}/expandpost`">
+              Post
+            </router-link>
+          </b-col>
+
+          <b-col cols="auto" v-else-if="notification.type === 'TYPE_COMMENT_REPLAY'">
+            <router-link :to="`anonymous-profile/${notification.user.id}`">
+              {{ notification.user.username }}
+            </router-link>
+            Replied your comment on this
+            <router-link :to="`${notification.postId}/expandpost`">
+              Post
+            </router-link>
+          </b-col>
+
+          <b-col cols="auto" v-else-if="notification.type === 'TYPE_ENDORSE'">
+            <router-link :to="`anonymous-profile/${notification.user.id}`">
+              {{ notification.user.username }}
+            </router-link>
+            endorsed your skill ({{ notification.skill.name }})
+          </b-col>
+
+          <b-col cols="auto" v-else-if="notification.type === 'TYPE_CHANGE_JOB_POSITION'">
+            <router-link :to="`anonymous-profile/${notification.user.id}`">
+              {{ notification.user.username }}
+            </router-link>
+            current position changed to <span class="font-italic">{{ notification.newCurrentCompany }}</span>
+          </b-col>
+
+          <!-- Mark as read btn -->
+          <b-col cols="auto">
+            <b-button variant="secondary" @click="markAsUnread(notification)">
+              Mark as unread
+            </b-button>
+          </b-col>
+        </b-row>
+      </b-card>
 
     </b-tab>
+
   </b-tabs>
 </template>
 
@@ -122,23 +216,37 @@ import { userConnection } from '../../db/user/connections'
 export default {
   name: 'UserNotifications',
   data: () => ({
-    unreadNotifications: [
-      // {type: 'TYPE_CHANGE_JOB_POSITION', user: { username: 'mohsen', id: '5'}}
-    ],
+    unreadNotifications: [],
     readNotifications: []
   }),
   methods: {
     async markAsRead(notification) {
-      notification.isRead = 'true'
+      notification.isRead = true
       await updateNotification(notification.id, notification)
 
-      //todo: add deleted notification to read part
       this.unreadNotifications = this.unreadNotifications.filter(n => n.id !== notification.id)
+      this.readNotifications.push(notification)
     },
     async markAllAsRead() {
       await updateNotificationsByUserId(this.$route.params.userId, {
         isRead: true
       })
+      this.readNotifications.push.apply(this.readNotifications, this.unreadNotifications)
+      this.unreadNotifications = []
+    },
+    async markAsUnread(notification) {
+      notification.isRead = false
+      await updateNotification(notification.id, notification)
+
+      this.readNotifications = this.readNotifications.filter(n => n.id !== notification.id)
+      this.unreadNotifications.push(notification)
+    },
+    async markAllAsUnread() {
+      await updateNotificationsByUserId(this.$route.params.userId, {
+        isRead: false
+      })
+      this.unreadNotifications.push.apply(this.unreadNotifications, this.readNotifications)
+      this.readNotifications = []
     },
     async checkIfItsConnectionsBirthday() {
 

@@ -176,7 +176,7 @@ import { getLanguagesByUserId } from '../../db/user/userLanguage'
 import { getAccomplishmentsByUserId } from '../../db/user/accomplishments'
 import { checkConnectionExists } from '../../db/user/connections'
 import { checkInvitationExists, sendInvitation } from '../../db/user/invitations'
-import { insertNotification, TYPE_ENDORSE } from '../../db/user/notifications'
+import { insertNotification, TYPE_ENDORSE, TYPE_PROFILE_SEEN } from '../../db/user/notifications'
 
 export default {
   name: 'UserProfile',
@@ -287,6 +287,15 @@ export default {
   async mounted() {
     await this.fetchProfileData()
     await this.checkConnection()
+
+    if (this.isAnonymous) {
+      await insertNotification({
+        receiverUserId: this.user.id,
+        transmitterUserId: this.loggedInUser.id,
+        type: TYPE_PROFILE_SEEN,
+        isRead: false
+      })
+    }
   }
 }
 </script>
