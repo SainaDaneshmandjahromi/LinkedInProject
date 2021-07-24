@@ -18,10 +18,10 @@
       :to="`/user/${this.$route.params.userId}/${post.id}/sharepost`"
       >Share</b-link>
 
-       <b-link  class="card-link" @click="addFavorite" v-if="this.$route.name == 'ThisUserPosts' && this.mypost.isFavorite !== 1"
+       <b-link  class="card-link" @click="addFavorite" v-if="this.$route.name == 'ThisUserPosts' && this.mypost.isFavorite !== 1 && this.isOriginal"
       >Add to my Favorites</b-link>
 
-      <b-link  class="card-link" @click="removeFavorite" v-if="this.mypost.isFavorite === 1"
+      <b-link  class="card-link" @click="removeFavorite" v-if="this.mypost.isFavorite === 1  && this.isOriginal"
       >Remove from Favorites</b-link>
       
   </b-card>
@@ -49,7 +49,8 @@ export default {
       cmCount:'',
       hasShared:false,
       sharedpost: '',
-      mypost:''
+      mypost:'',
+      isOriginal : false,
 
     }),
     async created() {
@@ -62,6 +63,10 @@ export default {
             
           this.hasShared = true
 
+        }
+
+        if(this.$route.userId === this.user.id){
+          this.isOriginal = true
         }
 
         this.likeCount = await  getPostLikesCount(this.post.id)

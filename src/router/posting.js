@@ -20,12 +20,23 @@ export default [
         component: SharePost
     },
     {
-        path: 'ThisUserPosts',
+        path: ':anonymousId/ThisUserPosts',
         name: 'ThisUserPosts',
         component: ThisUserPosts
     },
     {
+        path: 'ThisUserPosts',
+        name: 'ThisUserPosts',
+        component: ThisUserPosts
+    },
+    
+    {
         path: 'Favorites',
+        name: 'Favorites',
+        component: Favorites
+    },
+    {
+        path: ':anonymousId/Favorites',
         name: 'Favorites',
         component: Favorites
     },

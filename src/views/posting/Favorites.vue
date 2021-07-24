@@ -28,11 +28,18 @@ export default {
     UserPost
   },
   async created() {
+    console.log("adkjahfkhjf")
 
+ if (this.$route.params.anonymousId){
     console.log(this.$route.params.userId)
-    this.user = await getUserById(this.$route.params.userId)
-
-    this.posts = await  getUserFavoritePosts( this.$route.params.userId)
+    this.user = await getUserById(this.$route.params.anonymousId)
+    this.posts = await getUserPosts(this.$route.params.anonymousId)
+    }
+    else{
+       this.user = await getUserById(this.$route.params.userId)
+      this.posts = await getUserPosts(this.$route.params.userId)
+      console.log('sdkfhfuha')
+    }
   }
 }
 </script>

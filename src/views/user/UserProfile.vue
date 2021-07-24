@@ -69,26 +69,46 @@
       </b-row>
     
     <b-row class="justify-content-center mt-3">
-        <b-col cols="auto">
+        <b-col cols="auto" v-if="isAnonymous">
           <b-button
             variant="outline-secondary"
-            :to="`/user/${this.$route.params.userId}/ThisUserPosts`"
+            :to="`/user/${loggedInUser.id}/${user.id}/ThisUserPosts`"
           >
             <b-icon icon="file-post"></b-icon>
             Posts
           </b-button>
         </b-col>
-        <b-col cols="auto">
+        <b-col cols="auto" v-if="isAnonymous">
           <b-button
             variant="outline-secondary"
-            :to="`/user/${this.$route.params.userId}/Favorites`"
+            :to="`/user/${loggedInUser.id}/${user.id}/Favorites`"
+          >
+            <b-icon icon="star-fill"></b-icon>
+            Favorties Posts
+          </b-button>
+        </b-col>
+    </b-row>
+
+    <b-row class="justify-content-center mt-3">
+        <b-col cols="auto" v-if="!isAnonymous">
+          <b-button
+            variant="outline-secondary"
+            @click="$router.push(`/user/${$route.params.userId}/ThisUserPosts`)"
+          >
+            <b-icon icon="file-post"></b-icon>
+            Posts
+          </b-button>
+        </b-col>
+        <b-col cols="auto" v-if="!isAnonymous">
+          <b-button
+            variant="outline-secondary"
+            @click="$router.push(`/user/${$route.params.userId}/Favorites`)"
           >
             <b-icon icon="star-fill"></b-icon>
             Favorties Posts
           </b-button>
         </b-col>
       </b-row>
-
     </b-card>
 
     <b-card v-if="user.about" class="mt-3">
