@@ -313,6 +313,9 @@ export default {
         this.user = await getUserById(anonymousUserId)
 
         this.loggedInUser = await getUserById(userId)
+        if(this.user.id === this.loggedInUser.id){
+          this.$router.back()
+        }
       } else {
         this.isAnonymous = false
         this.user = await getUserById(userId)
