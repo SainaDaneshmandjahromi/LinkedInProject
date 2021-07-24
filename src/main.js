@@ -3,7 +3,7 @@ import Vue from 'vue'
 import './plugins/bootstrap-vue'
 import App from './App.vue'
 import router from './router'
-import { openDb, createTables, generateRealData, generateFakeData } from '@/db'
+import { openDb, createTables, generateApplicationData } from '@/db'
 
 Vue.config.productionTip = false;
 
@@ -12,8 +12,7 @@ Vue.config.productionTip = false;
     try {
         await openDb()
         await createTables()
-        await generateRealData()
-        await generateFakeData()
+        await generateApplicationData()
     } catch (err) {
         console.log(err)
     }

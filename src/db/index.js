@@ -78,7 +78,7 @@ export async function createTables() {
     await createUserChatsTable()
 }
 
-export async function generateRealData() {
+export async function generateApplicationData() {
     await dropLanguagesTable()
     await createLanguagesTable()
     await createUserLanguageTable()
@@ -91,8 +91,4 @@ export async function generateRealData() {
     await insertLanguage({name: 'French'})
     await insertLanguage({name: 'Chinese'})
     await insertLanguage({name: 'Korean'})
-}
-
-export async function generateFakeData() {
-    // to be filled!
 }
