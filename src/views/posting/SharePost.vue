@@ -11,7 +11,7 @@
                 max-rows="6"
                 ></b-form-textarea>
                         <br>
-        <b-card :title= this.user.username :sub-title="this.post.date">
+        <b-card :title= this.postUser.username :sub-title="this.post.date">
 
             <b-card-text>{{this.post.text}}</b-card-text>
 
@@ -39,6 +39,10 @@ export default {
         id: '',
         username: '',
         },
+    postUser: {
+        id: '',
+        username: '',
+    },
     post: {
         text: '',
         userId: '',
@@ -58,8 +62,7 @@ export default {
     async created() {
         this.user  = await getUserById(this.$route.params.userId)
         this.post = await getPostById(this.$route.params.postId)
-        
-        
+        this.postUser = await getUserById(this.post.userId)
         },
     methods: {
         async onClick(event){

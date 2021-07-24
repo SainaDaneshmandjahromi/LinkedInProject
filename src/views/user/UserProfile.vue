@@ -67,7 +67,16 @@
           </b-badge>
         </h4>
       </b-row>
-
+    
+    <b-row class="justify-content-center mt-3">
+        <b-button
+          variant="outline-secondary"
+          :to="`/user/${this.$route.params.userId}/ThisUserPosts`"
+        >
+          <b-icon icon="file-post"></b-icon>
+          Posts
+        </b-button>
+      </b-row>
 
     </b-card>
 

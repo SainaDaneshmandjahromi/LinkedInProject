@@ -15,6 +15,7 @@ import EditSkills from '../views/user/EditSkills'
 import EditAccomplishments from '../views/user/EditAccomplishments'
 
 
+
 export default [
     {
         path: '/user/:userId',
@@ -50,6 +51,12 @@ export default [
                 name: 'EditSkills',
                 component: EditSkills
             },
+
+            // {
+            //     path: 'user-favorite-posts',
+            //     name: 'EditSkills',
+            //     component: EditSkills
+            // },
             {
                 path: 'edit-accomplishments',
                 name: 'EditAccomplishments',

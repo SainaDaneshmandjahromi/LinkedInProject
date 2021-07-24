@@ -10,12 +10,12 @@
 
 <script>
 import UserPost from './UserPost.vue'
-import { getFeedPosts } from '@/db/posting/posts'
+import { getUserPosts } from '@/db/posting/posts' 
 // import { getPostComments} from '@/db/posting/comments'
 import { getUserById } from '@/db/user/users'
 
 export default {
-  name: 'UserPosts',
+  name: 'ThisUserPosts',
   data: () => ({
     user: {
       id: '',
@@ -31,7 +31,7 @@ export default {
 
     console.log(this.$route.params.userId)
     this.user = await getUserById(this.$route.params.userId)
-    this.posts = await getFeedPosts(this.$route.params.userId)
+    this.posts = await getUserPosts(this.$route.params.userId)
   }
 }
 </script>
