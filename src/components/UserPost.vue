@@ -1,8 +1,16 @@
 <template>
 <div>
-  <b-card :title= this.user.username :sub-title="this.post.date" >
-      <router-link :to="`/user/${$route.params.userId }/anonymous-profile/:${this.post.id}`">
+  <b-card>
+    <b-card-title>
+      <router-link class="font-weight-normal" :to="`/user/${$route.params.userId }/anonymous-profile/${this.post.id}`">
+        {{ user.username }}
       </router-link>
+    </b-card-title>
+
+    <b-card-sub-title>
+      {{ post.date }}
+    </b-card-sub-title>
+
       <b-card-text>{{this.post.text}}</b-card-text>
         
         <div v-if="this.hasShared">
