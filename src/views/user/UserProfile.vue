@@ -68,8 +68,8 @@
         </h4>
       </b-row>
     
-    <b-row class="justify-content-center mt-3">
-        <b-col cols="auto" v-if="isAnonymous">
+    <b-row no-gutters class="justify-content-center mt-1">
+        <b-col class="mr-2" cols="auto" v-if="isAnonymous">
           <b-button
             variant="outline-secondary"
             :to="`/user/${loggedInUser.id}/${user.id}/ThisUserPosts`"
@@ -78,19 +78,19 @@
             Posts
           </b-button>
         </b-col>
-        <b-col cols="auto" v-if="isAnonymous">
+        <b-col cols="auto" v-if="isAnonymous" >
           <b-button
             variant="outline-secondary"
             :to="`/user/${loggedInUser.id}/${user.id}/Favorites`"
           >
             <b-icon icon="star-fill"></b-icon>
-            Favorties Posts
+            Favorites
           </b-button>
         </b-col>
     </b-row>
 
-    <b-row class="justify-content-center mt-3">
-        <b-col cols="auto" v-if="!isAnonymous">
+    <b-row no-gutters  class="justify-content-center mt-1">
+        <b-col class="mr-2" cols="auto" v-if="!isAnonymous">
           <b-button
             variant="outline-secondary"
             @click="$router.push(`/user/${$route.params.userId}/ThisUserPosts`)"
@@ -314,7 +314,7 @@ export default {
 
         this.loggedInUser = await getUserById(userId)
         if(this.user.id === this.loggedInUser.id){
-          this.$router.back()
+          this.$router.push(`/user/${userId}/profile`)
         }
       } else {
         this.isAnonymous = false
