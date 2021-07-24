@@ -10,6 +10,7 @@ export async function createPostsTable() {
             text TEXT NOT NULL,
             media TEXT ,
             date DATE,
+            isFavorite INTEGER,
             FOREIGN KEY (userId) REFERENCES users (id),
             FOREIGN KEY (sharedPostId) REFERENCES posts (id)
             )
@@ -25,6 +26,29 @@ export async function getUserPosts(userId) {
           userId = ?
     `,
     userId
+    )
+}
+
+export async function getUserFavoritePosts(userId) {
+    return getDb().all(`
+        SELECT * FROM posts
+         WHERE
+          userId = ? AND
+          isFavorite = 1
+    `,
+    userId,
+    
+    )
+}
+
+export async function changeFavorite(postId, fave) {
+    return getDb().run(`
+        UPDATE posts
+            SET isFavorite = ?
+                WHERE id = ?
+    `,
+    fave,
+    postId,
     )
 }
 

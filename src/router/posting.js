@@ -2,6 +2,7 @@ import NewPost from '@/views/posting/NewPost'
 import ExpandPost from '@/views/posting/ExpandPost'
 import SharePost from '@/views/posting/SharePost'
 import ThisUserPosts from  '@/views/posting/ThisUserPosts'
+import Favorites from  '@/views/posting/Favorites'
 export default [
     {
         path: 'newpost',
@@ -22,5 +23,10 @@ export default [
         path: 'ThisUserPosts',
         name: 'ThisUserPosts',
         component: ThisUserPosts
+    },
+    {
+        path: 'Favorites',
+        name: 'Favorites',
+        component: Favorites
     },
 ]

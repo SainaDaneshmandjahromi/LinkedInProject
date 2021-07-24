@@ -17,6 +17,12 @@
       <b-link  class="card-link" 
       :to="`/user/${this.$route.params.userId}/${post.id}/sharepost`"
       >Share</b-link>
+
+       <b-link  class="card-link" @click="addFavorite" v-if="this.$route.name == 'ThisUserPosts' && this.mypost.isFavorite !== 1"
+      >Add to my Favorites</b-link>
+
+      <b-link  class="card-link" @click="removeFavorite" v-if="this.mypost.isFavorite === 1"
+      >Remove from Favorites</b-link>
       
   </b-card>
 </div>
@@ -25,7 +31,7 @@
 <script>
 import{getUserById} from '@/db/user/users'
 import{like_post,  getPostLikesCount,getPostLikes} from '@/db/posting/postLikes'
-import{ getPostById} from '@/db/posting/posts'
+import{ getPostById,changeFavorite} from '@/db/posting/posts'
 import { getPostComments} from '@/db/posting/comments'
 import {TYPE_POST_LIKE,insertNotification} from '@/db/user/notifications'
 export default {
@@ -43,9 +49,11 @@ export default {
       cmCount:'',
       hasShared:false,
       sharedpost: '',
+      mypost:''
 
     }),
     async created() {
+        this.mypost  = await getPostById(this.post.id)
         this.user  = await getUserById(this.post.userId)
         console.log(this.user)
         if (this.post.sharedPostId !== null ){
@@ -91,8 +99,19 @@ export default {
         
         this.likeCount["cnt"] += 1
       }
+
   
   },
+  async addFavorite(event){
+      await changeFavorite(this.post.id, 1)
+      console.log("added to favorits")
+      this.mypost  = await getPostById(this.post.id)
+    },
+  async removeFavorite(event){
+      await changeFavorite(this.post.id, 0)
+      console.log("removed form  favorites")
+       this.mypost  = await getPostById(this.post.id)
+    }
 
       
     }

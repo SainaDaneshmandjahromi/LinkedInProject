@@ -69,13 +69,24 @@
       </b-row>
     
     <b-row class="justify-content-center mt-3">
-        <b-button
-          variant="outline-secondary"
-          :to="`/user/${this.$route.params.userId}/ThisUserPosts`"
-        >
-          <b-icon icon="file-post"></b-icon>
-          Posts
-        </b-button>
+        <b-col cols="auto">
+          <b-button
+            variant="outline-secondary"
+            :to="`/user/${this.$route.params.userId}/ThisUserPosts`"
+          >
+            <b-icon icon="file-post"></b-icon>
+            Posts
+          </b-button>
+        </b-col>
+        <b-col cols="auto">
+          <b-button
+            variant="outline-secondary"
+            :to="`/user/${this.$route.params.userId}/Favorites`"
+          >
+            <b-icon icon="star-fill"></b-icon>
+            Favorties Posts
+          </b-button>
+        </b-col>
       </b-row>
 
     </b-card>
