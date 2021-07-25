@@ -1,8 +1,13 @@
 <template>
 <div>
-  <b-card :title= this.user.username :sub-title="this.post.date" >
-      <router-link :to="`/user/${$route.params.userId }/anonymous-profile/:${this.post.id}`">
-      </router-link>
+  <b-card 
+  v-if="(this.$route.name==='Favorites' && mypost.isFavorite===1) ||!(this.$route.name==='Favorites')">
+    <b-card-title>
+          <router-link class="font-weight-normal" :to="`/user/${$route.params.userId }/anonymous-profile/${this.mypost.id}`">
+            {{ user.username }}
+          </router-link>
+    </b-card-title>
+
       <b-card-text>{{this.post.text}}</b-card-text>
         
         <div v-if="this.hasShared">
@@ -20,10 +25,10 @@
       :to="`/user/${this.$route.params.userId}/${post.id}/sharepost`"
       >Share</b-link>
 
-       <b-link  class="card-link" @click="addFavorite" v-if="this.$route.name == 'ThisUserPosts' && this.mypost.isFavorite !== 1 && this.isOriginal"
+       <b-link  class="card-link" @click="addFavorite" v-if="this.$route.name == 'ThisUserPosts' && mypost.isFavorite !== 1 && isOriginal"
       >Add to my Favorites</b-link>
 
-      <b-link  class="card-link" @click="removeFavorite" v-if="this.mypost.isFavorite === 1  && this.isOriginal"
+      <b-link  class="card-link" @click="removeFavorite" v-if="mypost.isFavorite === 1  && isOriginal"
       >Remove from Favorites</b-link>
       
   </b-card>
@@ -67,9 +72,10 @@ export default {
 
         }
 
-        if(this.$route.userId === this.user.id){
+        if(this.$route.params.userId == this.mypost.userId){
           this.isOriginal = true
         }
+        console.log("is original",this.$route.params.userId,this.mypost.userId, this.isOriginal)
 
         this.likeCount = await  getPostLikesCount(this.post.id)
         const cnt = JSON.stringify(this.likeCount)
