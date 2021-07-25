@@ -314,7 +314,7 @@ export default {
 
         this.loggedInUser = await getUserById(userId)
         if(this.user.id === this.loggedInUser.id){
-          this.$router.push(`/user/${userId}/profile`)
+          await this.$router.replace(`/user/${userId}/profile`)
         }
       } else {
         this.isAnonymous = false
