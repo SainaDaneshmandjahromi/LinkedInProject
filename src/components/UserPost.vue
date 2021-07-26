@@ -108,14 +108,14 @@ export default {
           commentId:null
 
         }
-        await insertNotification(notif)
+        await insertNotification(notif) //add notification to db
         
         this.likeCount["cnt"] += 1
       }
 
   
   },
-  async addFavorite(event){
+  async addFavorite(){
       await changeFavorite(this.post.id, 1)
       console.log("added to favorits")
       this.mypost  = await getPostById(this.post.id)
