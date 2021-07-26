@@ -1,7 +1,7 @@
 <template>
 <div>
   <b-card 
-  v-if="(this.$route.name==='Favorites' && mypost.isFavorite===1) ||!(this.$route.name==='Favorites')">
+    v-if="(this.$route.name==='Favorites' && mypost.isFavorite===1) ||!(this.$route.name==='Favorites')">
     <b-card-title>
           <router-link class="font-weight-normal" :to="`/user/${$route.params.userId }/anonymous-profile/${this.mypost.id}`">
             {{ user.username }}
